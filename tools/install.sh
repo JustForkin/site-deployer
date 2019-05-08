@@ -4,11 +4,11 @@ case $(whoami) in
     root)
         echo "# Starting install of Site Deployer"
         git clone git@github.com:bilyboy785/site-deployer.git /opt/site-deployer
-        if [[ -f ~/.zshrc ]]; then
+        if [ -f ~/.zshrc ]; then
             BASHRC_FILE="~/.zshrc"
         fi
 
-        if [[ -f ~/.bashrc ]]; then
+        if [ -f ~/.bashrc ]; then
             BASHRC_FILE="~/.bashrc"
         fi
 
