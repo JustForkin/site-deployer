@@ -2,7 +2,7 @@
 
 CURRENT_USER=$(whoami)
 
-if [ "$CURRENT_USER" == "root" ]
+if [ "$CURRENT_USER" = "root" ]
 then
     echo "# Starting install of Site Deployer"
     git clone git@github.com:bilyboy785/site-deployer.git /opt/site-deployer >/dev/null 2>&1
