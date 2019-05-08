@@ -2,7 +2,8 @@
 
 case $(whoami) in
     root)
-        git clone https://github.com/bilyboy785/site-deployer.git /opt/site-deployer
+        echo "# Starting install of Site Deployer"
+        git clone git@github.com:bilyboy785/site-deployer.git /opt/site-deployer
         if [[ -f ~/.zshrc ]]; then
             BASHRC_FILE="~/.zshrc"
         fi
