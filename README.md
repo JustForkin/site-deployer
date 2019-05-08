@@ -13,7 +13,7 @@ Site deploy is a script to prepare and install a fresh and tuned Web Server stac
 ## Installation
 To install site-deploy script, follow these steps :
 ```
-git clone https://github.com/bilyboy785/site-deployer.git /opt/site-deployer
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/bilyboy785/site-deployer/master/tools/install.sh)"
 ```
   
 ## DNS Challenge manager
