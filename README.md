@@ -1,4 +1,4 @@
-# Website Deploy
+# Website Deployer
 
 ## Description
 Site deploy is a script to prepare and install a fresh and tuned Web Server stack based on Nginx / PHP FPM / Redis. After that, relunch the script and deploy your mutualised ans isolated websites.
