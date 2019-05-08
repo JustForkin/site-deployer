@@ -8,5 +8,4 @@ addons:
       - git
 
 after_success: |
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/bilyboy785/site-deployer/master/tools/install.sh)"
-  deploy dryrun martinbouillaud bouillaudmartin.fr dev.bouillaudmartin.fr
+  sudo bash deploy.sh
