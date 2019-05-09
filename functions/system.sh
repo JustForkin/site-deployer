@@ -56,7 +56,7 @@ function checkCompatibility() {
         echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
     fi
     echo "   -> Install Sendmail"
-    apt-get install -y sendmail
+    apt-get install -y sendmail >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
         echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
     fi
