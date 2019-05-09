@@ -9,7 +9,7 @@ function checkCompatibility() {
     apt-get update >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
         echo -e "     --> Update ${GREEN}successfully${CLASSIC}"
-    else
+    fi
     which lsb_release >/dev/null 2>&1
     if [[ ! $? -eq 0 ]]; then 
         apt install lsb-release >/dev/null 2>&1

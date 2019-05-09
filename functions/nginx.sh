@@ -1,5 +1,6 @@
 
 #!/bin/bash
+
 function dhparam() {
     if [[ ! -f /etc/ssl/certs/dhparam.pem ]]; then
         echo "## Checking for dhparam key"
