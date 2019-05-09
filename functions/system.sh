@@ -4,7 +4,6 @@ function checkCompatibility() {
     source $(dirname "$0")/functions/vars.sh
     source $(dirname "$0")/functions/common.sh
     
-    echo ""
     echo "## Checking for system"
     apt-get update >/dev/null 2>&1
     which lsb_release >/dev/null 2>&1
