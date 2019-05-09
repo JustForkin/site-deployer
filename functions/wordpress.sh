@@ -1,5 +1,5 @@
 function wordpressdeploy() {
-    source dirname "$(realpath $0)"/functions/vars.sh
+    source $(dirname "$(realpath $0)")/functions/vars.sh
 
     cd ${3}
     echo "   -> Downloading latest Wordpress version"
