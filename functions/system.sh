@@ -50,8 +50,13 @@ function checkCompatibility() {
     if [[ $? -eq 0 ]]; then
         echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
     fi
-    echo "   -> Install Certbot and plugins"
-    apt-get install -y certbot python3-certbot-dns-cloudflare python3-certbot-dns-dnsimple python3-certbot-dns-digitalocean python3-certbot-dns-google >/dev/null 2>&1
+    echo "   -> Install Certbot"
+    apt-get install -y certbot python3-certbot-dns-cloudflare >/dev/null 2>&1
+    if [[ $? -eq 0 ]]; then
+        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    fi
+    echo "   -> Install Certbot plugins"
+    apt-get install -y python3-certbot-dns-cloudflare >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
         echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
     fi
