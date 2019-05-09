@@ -22,9 +22,9 @@ echo ""
 case $(whoami) in
     root)
         case $1 in
-            "dryrun")
+            dryrun)
                 checkConfigFile dryrun
-                ::
+                ;;
             *)
                 checkConfigFile
                 ;;
