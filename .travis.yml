@@ -1,5 +1,8 @@
 language: bash
 
+script:
+  - bash -c 'shopt -s globstar; shellcheck **/*.{sh,ksh,bash}'
+
 sudo: required
 
 addons:
