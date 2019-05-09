@@ -40,7 +40,7 @@ function newDeploy() {
     fi
 
     IPV4=$(curl -s ip4.clara.net)
-    for DOM in "${DOM_REDIRECT[@]"}
+    for DOM in "${DOM_REDIRECT[@]}"
     do
         RECORD_IP_ADDRESS=$(dig A $DOM +short | head -1)
         if [[ ! "$RECORD_IP_ADDRESS" == "${IPV4}" ]]; then
