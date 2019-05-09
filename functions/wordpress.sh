@@ -1,3 +1,4 @@
+#!/bin/bash
 function wordpressdeploy() {
     source $(dirname "$0")/functions/vars.sh
 

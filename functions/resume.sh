@@ -1,3 +1,4 @@
+#!/bin/bash
 function resume() {
     source $(dirname "$0")/functions/vars.sh
     source $(dirname "$0")/functions/common.sh

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source $(dirname "$0")/functions/vars.sh
 
 function checkingCFRecord() {
@@ -13,7 +15,7 @@ function checkingCFRecord() {
         echo -e "    -> Zone ${GREEN}OK${CLASSIC} in Cloudflare with ID : $CF_ZONE_ID"
         ALIASES=$(whiptail --title "Aliases" --inputbox "Please type all your aliases" 10 60 $2 3>&1 1>&2 2>&3)
         echo "  -> Getting record ID for $ALIASES"
-        for DOM in ${ALIASES[@]}
+        for DOM in "${ALIASES[@]}"
         do
             CF_RECORD_CHECK=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records?type=A&name=$DOM" -H "X-Auth-Email: $CF_EMAIL" -H "X-Auth-Key: $CF_APIKEY" -H "Content-Type: application/json")
             CF_RECORD_SUCCESS=$(echo $CF_RECORD_CHECK | jq '.success')
@@ -86,14 +88,14 @@ function cloudflareRealIPConfiguration() {
     echo "" > $CLOUDFLARE_CONFIG_FILE
     echo "  -> Updating IPV4..."
     echo "## IPV4" >> $CLOUDFLARE_CONFIG_FILE
-    for ip in $(curl -s $IPV4LIST)
+    for ip in $(curl -s "${IPV4LIST}")
     do
         echo "set_real_ip_from $ip;" >> $CLOUDFLARE_CONFIG_FILE
     done
     echo "" >> $CLOUDFLARE_CONFIG_FILE
     echo "  -> Updating IPV6..."
     echo "## IPV6" >> $CLOUDFLARE_CONFIG_FILE
-    for ip in $(curl -s $IPV6LIST)
+    for ip in $(curl -s "${IPV6LIST}")
     do
             echo "set_real_ip_from $ip;" >> $CLOUDFLARE_CONFIG_FILE
     done

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export RED="\033[31m"
 export GREEN="\033[32m"
 export BLUE="\e[34m"

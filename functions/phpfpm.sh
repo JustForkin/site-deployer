@@ -1,3 +1,4 @@
+#!/bin/bash
 function enablefpm() {
     ## Version PHP
     export PHP_VERSION=$(whiptail --title "PHP Version" --menu "Quelle version PHP Utiliser ?" 15 60 4 \

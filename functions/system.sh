@@ -1,3 +1,4 @@
+#!/bin/bash
 function checkCompatibility() {
     source $(dirname "$0")/functions/cloudflare.sh
     source $(dirname "$0")/functions/vars.sh
@@ -207,7 +208,7 @@ function checkCompatibility() {
     echo ""
     sleep 1
 
-    
+
     if [[ ! -f /etc/ssl/certs/dhparam.pem ]] && [[ "$1" != "dryrun" ]]; then
         echo "## Checking for dhparam key"
         OPENSSL_BIN=$(which openssl)

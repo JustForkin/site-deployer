@@ -1,3 +1,4 @@
+#!/bin/bash
 function ftpasswd() {
     source $(dirname "$0")/functions/vars.sh
 
