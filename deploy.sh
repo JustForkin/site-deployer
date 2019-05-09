@@ -1,9 +1,9 @@
 #!/bin/bash
 
 source /etc/environment
-. $(readlink -f $(dirname $0))/functions/vars.sh
-. $(readlink -f $(dirname $0))/functions/system.sh
-. $(readlink -f $(dirname $0))/functions/common.sh
+source $(dirname "$0")/functions/vars.sh
+source $(dirname "$0")/functions/system.sh
+source $(dirname "$0")/functions/common.sh
 export IPV4=$(curl -s ip4.clara.net)
 
 clear

@@ -1,8 +1,8 @@
 function newDeploy() {
-    . $(readlink -f $(dirname $0))/functions/nginx.sh
-    . $(readlink -f $(dirname $0))/functions/resume.sh
-    . $(readlink -f $(dirname $0))/functions/vars.sh
-    . $(readlink -f $(dirname $0))/functions/cloudflare.sh
+    source $(dirname "$0")/functions/nginx.sh
+    source $(dirname "$0")/functions/resume.sh
+    source $(dirname "$0")/functions/vars.sh
+    source $(dirname "$0")/functions/cloudflare.sh
 
     export CLIENT_NAME=$(whiptail --title "Client name" --inputbox "Client name, will be used for client folder" 10 60 3>&1 1>&2 2>&3)
     export DOMAIN=$(whiptail --title "Domain" --inputbox "First level domain name" 10 60 3>&1 1>&2 2>&3)
@@ -257,12 +257,12 @@ function newDeploy() {
 }
 
 function install() {
-    . $(readlink -f $(dirname $0))/functions/vars.sh
-    . $(readlink -f $(dirname $0))/functions/letsencrypt.sh
-    . $(readlink -f $(dirname $0))/functions/cloudflare.sh
-    . $(readlink -f $(dirname $0))/functions/proftpd.sh
-    . $(readlink -f $(dirname $0))/functions/wordpress.sh
-    . $(readlink -f $(dirname $0))/functions/database.sh
+    source $(dirname "$0")/functions/vars.sh
+    source $(dirname "$0")/functions/letsencrypt.sh
+    source $(dirname "$0")/functions/cloudflare.sh
+    source $(dirname "$0")/functions/proftpd.sh
+    source $(dirname "$0")/functions/wordpress.sh
+    source $(dirname "$0")/functions/database.sh
 
     echo "## Starting deployment"
     if (whiptail --title "Cloudflare DNS Validation" --yesno "Do you wan't to update automatically your DNS Record with Cloudflare API ?" 10 60) then
