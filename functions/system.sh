@@ -357,7 +357,7 @@ function checkConfigFile() {
                 rollback
                 ;;
             6)
-                echo "  -> Continue to compatibility check"
+                echo "### Compatibility check starting"
                 checkCompatibility
                 ;;
             7)
