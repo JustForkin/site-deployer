@@ -1,6 +1,7 @@
 function checkCompatibility() {
     source $(dirname "$0")/functions/cloudflare.sh
     source $(dirname "$0")/functions/vars.sh
+    source $(dirname "$0")/functions/common.sh
     
     echo ""
     echo "## Checking for system"
@@ -30,22 +31,28 @@ function checkCompatibility() {
     echo "## Checking for base packages"
     echo "  -> Installations can take some time, be patient..."
     declare PACKAGES=( "whiptail" "curl" "certbot" "nginx" "proftpd" "jq" "whois" "vim" "python3" "liblockfile-bin" "liblockfile1" "lockfile-progs" "sendmail" "python3-pip" "mariadb-client" "mariadb-server" "python3-certbot-dns-cloudflare" "python3-certbot-dns-dnsimple" "binutils" "python3-certbot-dns-digitalocean" "python3-certbot-dns-google" )
-    NB_PACKAGE=21
-    for PACKAGE in ${PACKAGES[@]}
-    do
-        echo "  -> Installing $PACKAGE"
-        apt-get install -y $PACKAGE >/dev/null 2>&1
-        if [[ $? -eq 0 ]]; then
-            echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
-        else
-            echo -e "     --> Install ${GREEN}failed${CLASSIC}"
-            read -n 1 -s -r -p "Press any key to retry install"
-            apt-get install -y $PACKAGE >/dev/null 2>&1
-            if [[ $? -eq 0 ]]; then
-                echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
-            fi
-        fi
-    done
+    apt-get install -y ${PACKAGES[@]} >/dev/null 2>&1
+    if [[ $? -eq 0 ]]; then
+        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    else
+        apt-get install -y ${PACKAGES[@]} >/dev/null 2>&1
+    fi
+
+    # for PACKAGE in ${PACKAGES[@]}
+    # do
+    #     echo "  -> Installing $PACKAGE"
+    #     apt-get install -y $PACKAGE >/dev/null 2>&1
+    #     if [[ $? -eq 0 ]]; then
+    #         echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    #     else
+    #         echo -e "     --> Install ${GREEN}failed${CLASSIC}"
+    #         read -n 1 -s -r -p "Press any key to retry install"
+    #         apt-get install -y $PACKAGE >/dev/null 2>&1
+    #         if [[ $? -eq 0 ]]; then
+    #             echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    #         fi
+    #     fi
+    # done
 
     echo ""
     sleep 1
@@ -100,8 +107,6 @@ function checkCompatibility() {
         PHP_INSTALLED_VERSION=$(php --version | head -1 | grep PHP | cut -d\  -f2 | cut -d\+ -f1)
         echo -e "  -> PHP : ${GREEN}OK${CLASSIC} - CLI Version $PHP_INSTALLED_VERSION"
     fi
-
-
     export PHP_BIN=$(which php)
 
     # echo ""
@@ -174,19 +179,17 @@ function checkCompatibility() {
     echo ""
     sleep 1
     
-    if (whiptail --title "Wordpress" --yesno "Do you plan to deploy wordpress ?" 10 80) then
-        echo "## Checking for WP-CLI binaries"
-        which wp >/dev/null 2>&1
-        if [[ ! $? -eq 0 ]]; then
-            cd /tmp
-            echo "  -> Downloading WP-CLI"
-            curl -sO https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-            echo "  -> Installing WP-CLI"
-            chmod +x wp-cli.phar
-            mv wp-cli.phar /usr/local/bin/wp
-        else
-            echo "  -> Found WP-CLI binaries"
-        fi
+    echo "## Checking for WP-CLI binaries"
+    which wp >/dev/null 2>&1
+    if [[ ! $? -eq 0 ]]; then
+        cd /tmp
+        echo "  -> Downloading WP-CLI"
+        curl -sO https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+        echo "  -> Installing WP-CLI"
+        chmod +x wp-cli.phar
+        mv wp-cli.phar /usr/local/bin/wp
+    else
+        echo "  -> Found WP-CLI binaries"
     fi
 
     echo ""
@@ -194,14 +197,9 @@ function checkCompatibility() {
 
     if [[ ! -f /etc/ssl/certs/dhparam.pem ]]; then
         echo "## Checking for dhparam key"
-        if (whiptail --title "DHParam" --yesno "Would you like to generate a DHPARAM Key ? " 10 80) then
-            OPENSSL_BIN=$(which openssl)
-            ${OPENSSL_BIN} dhparam -out /etc/ssl/certs/dhparam.pem 4096
-            echo -e "  -> DHPARAM ${GREEN}successfully${CLASSIC} generated"
-        else
-            echo -e "  -> Skipping DHPARAM generation"
-            sed -i 's/^ssl_dhparam/#ssl_dhparam/g' /etc/nginx/snippets/letsencrypt.conf 
-        fi
+        OPENSSL_BIN=$(which openssl)
+        ${OPENSSL_BIN} dhparam -out /etc/ssl/certs/dhparam.pem 4096
+        echo -e "  -> DHPARAM ${GREEN}successfully${CLASSIC} generated"
     else
         echo -e "  -> DHPARAM ${GREEN}already${CLASSIC} generated"
     fi
@@ -209,7 +207,16 @@ function checkCompatibility() {
     echo ""
     sleep 1
 
-    cloudflareRealIPConfiguration
+    case $1 in
+        "dryrun")
+            echo "  -> Dryrun mode, no Cloudflare check"
+            ;;
+        *)
+            cloudflareRealIPConfiguration
+            ;;
+    esac
+
+   
 
     echo ""
     sleep 1
@@ -235,7 +242,14 @@ function checkCompatibility() {
     echo "" >> ${SD_CONF_FILE}
     echo ""
 
-    checkConfigFile
+    case $1 in
+        "dryrun")
+            newDeploy dryrun
+            ;;
+        *)
+            checkConfigFile
+            ;;
+    esac
 }
 
 function checkConfigFile() {

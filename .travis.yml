@@ -8,4 +8,4 @@ addons:
       - git
 
 after_success: |
-  sudo bash deploy.sh
+  sudo bash deploy.sh dryrun
