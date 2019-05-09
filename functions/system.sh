@@ -30,30 +30,36 @@ function checkCompatibility() {
 
     echo "## Checking for base packages"
     echo "  -> Installations can take some time, be patient..."
-    # declare PACKAGES=( "whiptail" "curl" "certbot" "nginx" "proftpd" "jq" "whois" "vim" "python3" "liblockfile-bin" "liblockfile1" "lockfile-progs" "sendmail" "python3-pip" "mariadb-client" "mariadb-server" "python3-certbot-dns-cloudflare" "python3-certbot-dns-dnsimple" "binutils" "python3-certbot-dns-digitalocean" "python3-certbot-dns-google" )
-    
-    apt-get install -y whiptail curl certbot nginx proftpd jq whois vim python3 liblockfile-bin liblockfile1 lockfile-progs sendmail python3-pip mariadb-client mariadb-server python3-certbot-dns-cloudflare python3-certbot-dns-dnsimple binutils python3-certbot-dns-digitalocean python3-certbot-dns-google >/dev/null 2>&1
+    echo "   -> Install base dependencies"
+    apt-get install -y whiptail curl jq whois vim python3 python3-pip binutils >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
         echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
-    else
-        apt-get install -y ${PACKAGES[@]} >/dev/null 2>&1
     fi
-
-    # for PACKAGE in ${PACKAGES[@]}
-    # do
-    #     echo "  -> Installing $PACKAGE"
-    #     apt-get install -y $PACKAGE >/dev/null 2>&1
-    #     if [[ $? -eq 0 ]]; then
-    #         echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
-    #     else
-    #         echo -e "     --> Install ${GREEN}failed${CLASSIC}"
-    #         read -n 1 -s -r -p "Press any key to retry install"
-    #         apt-get install -y $PACKAGE >/dev/null 2>&1
-    #         if [[ $? -eq 0 ]]; then
-    #             echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
-    #         fi
-    #     fi
-    # done
+    echo "   -> Install Web Server"
+    apt-get install -y nginx >/dev/null 2>&1
+    if [[ $? -eq 0 ]]; then
+        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    fi
+    echo "   -> Install FTP Server"
+    apt-get install -y proftpd >/dev/null 2>&1
+    if [[ $? -eq 0 ]]; then
+        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    fi
+    echo "   -> Install MySQL Server"
+    apt-get install -y mariadb-client mariadb-server >/dev/null 2>&1
+    if [[ $? -eq 0 ]]; then
+        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    fi
+    echo "   -> Install Certbot and plugins"
+    apt-get install -y certbot python3-certbot-dns-cloudflare python3-certbot-dns-dnsimple python3-certbot-dns-digitalocean python3-certbot-dns-google >/dev/null 2>&1
+    if [[ $? -eq 0 ]]; then
+        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    fi
+    echo "   -> Install Sendmail"
+    apt-get install -y sendmail
+    if [[ $? -eq 0 ]]; then
+        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    fi
 
     echo ""
     sleep 1
