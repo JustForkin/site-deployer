@@ -1,7 +1,7 @@
 function checkCompatibility() {
-    source ./cloudflare.sh
-    source ./functions/vars.sh
-    source ./functions/common.sh
+    source $(dirname "$0")/cloudflare.sh
+    source $(dirname "$0")/functions/vars.sh
+    source $(dirname "$0")/functions/common.sh
     
     echo ""
     echo "## Checking for system"
