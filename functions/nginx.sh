@@ -14,3 +14,16 @@ function dhparam() {
         echo -e "  -> DHPARAM ${GREEN}already${CLASSIC} generated"
     fi
 }
+
+
+    # if (whiptail --title "Enable Sites" --yesno "Souhaitez-vous activer les sites Nginx ?" 10 60) then
+    #     echo ""
+    #     echo "## Activation des sites Nginx"
+    #     cd /etc/nginx/sites-enabled
+    #     ln -s ../sites-available/001-$DOMAIN* ./
+    #     nginx -t > /dev/null 2>&1
+    #     if [[ $? -eq 0 ]]; then
+    #         systemctl reload nginx
+    #         checkretour $?
+    #     fi
+    # fi
