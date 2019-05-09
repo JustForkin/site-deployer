@@ -207,6 +207,7 @@ function checkCompatibility() {
     echo ""
     sleep 1
 
+    
     if [[ ! -f /etc/ssl/certs/dhparam.pem ]] && [[ "$1" != "dryrun" ]]; then
         echo "## Checking for dhparam key"
         OPENSSL_BIN=$(which openssl)

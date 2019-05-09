@@ -23,7 +23,7 @@ case $(whoami) in
     root)
         case $1 in
             dryrun)
-                checkConfigFile dryrun
+                checkCompatibility dryrun
                 ;;
             *)
                 checkConfigFile
