@@ -279,7 +279,6 @@ function checkCompatibility() {
     echo ""
     sleep 1
 
-
     if [[ ! -f /etc/ssl/certs/dhparam.pem ]] && [[ "$1" != "dryrun" ]]; then
         echo "## Checking for dhparam key"
         OPENSSL_BIN=$(which openssl)
@@ -362,7 +361,14 @@ function checkConfigFile() {
                 ;;
             3)
                 echo "  -> Generate DHPARAM key"
-                dhparam
+                if [[ ! -f /etc/ssl/certs/dhparam.pem ]]; then
+                    echo "## Checking for dhparam key"
+                    OPENSSL_BIN=$(which openssl)
+                    ${OPENSSL_BIN} dhparam -out /etc/ssl/certs/dhparam.pem 4096
+                    echo -e "  -> DHPARAM ${GREEN}successfully${CLASSIC} generated"
+                else
+                    echo -e "  -> DHPARAM ${GREEN}already${CLASSIC} generated"
+                fi
                 ;;
             4)
                 if [[ -f ${SD_CONF_FILE} ]]; then
