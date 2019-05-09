@@ -32,15 +32,31 @@ function checkCompatibility() {
     echo "## Checking for base packages"
     echo "  -> Installations can take some time, be patient..."
     echo "   -> Install base dependencies"
-    apt-get install -y whiptail curl jq whois vim python3 python3-pip binutils >/dev/null 2>&1
-    if [[ $? -eq 0 ]]; then
-        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
-    fi
+    declare -A PACKAGES=( "whiptail" "curl" "jq" "whois" "vim" "python3" "python3-pip" "binutils" )
+    for PACKAGE in ${PACKAGES[@]}
+    do
+        which $PACKAGE >/dev/null 2>&1
+        if [[ $? -eq 0 ]]; then
+            echo -e "     --> $PACKAGE ${GREEN}already installed${CLASSIC}"
+        else
+            apt-get install -y $PACKAGE >/dev/null 2>&1
+            if [[ $? -eq 0 ]]; then
+                echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+            fi
+        fi
+    done
+
     echo "   -> Install Web Server"
-    apt-get install -y nginx >/dev/null 2>&1
-    if [[ $? -eq 0 ]]; then
-        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    which nginx >/dev/null 2>&1
+    if [[ ! $? -eq 0 ]]; then
+        apt-get install -y nginx >/dev/null 2>&1
+        if [[ $? -eq 0 ]]; then
+            echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+        fi
+    else
+        echo -e "     --> $PACKAGE ${GREEN}already installed${CLASSIC}"
     fi
+    
     echo "   -> Install FTP Server"
     apt-get install -y proftpd >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
