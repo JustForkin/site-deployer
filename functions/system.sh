@@ -36,7 +36,7 @@ function checkCompatibility() {
     echo "  -> Installations can take some time, be patient..."
     echo "   -> Install base dependencies"
     declare PACKAGES=( "whiptail" "curl" "jq" "whois" "vim" "python3" "binutils" )
-    for PACKAGE in ${PACKAGES[@]}
+    for PACKAGE in "${PACKAGES[@]}"
     do
         which $PACKAGE >/dev/null 2>&1
         if [[ $? -eq 0 ]]; then
