@@ -1,5 +1,5 @@
 function checkCompatibility() {
-    source $(dirname "$0")/cloudflare.sh
+    source $(dirname "$0")/functions/cloudflare.sh
     source $(dirname "$0")/functions/vars.sh
     source $(dirname "$0")/functions/common.sh
     
