@@ -32,7 +32,7 @@ function checkCompatibility() {
     echo "## Checking for base packages"
     echo "  -> Installations can take some time, be patient..."
     echo "   -> Install base dependencies"
-    declare -A PACKAGES=( "whiptail" "curl" "jq" "whois" "vim" "python3" "python3-pip" "binutils" )
+    declare PACKAGES=( "whiptail" "curl" "jq" "whois" "vim" "python3" "python3-pip" "binutils" )
     for PACKAGE in ${PACKAGES[@]}
     do
         which $PACKAGE >/dev/null 2>&1
@@ -56,7 +56,7 @@ function checkCompatibility() {
     else
         echo -e "     --> $PACKAGE ${GREEN}already installed${CLASSIC}"
     fi
-    
+
     echo "   -> Install FTP Server"
     apt-get install -y proftpd >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
