@@ -179,13 +179,13 @@ function checkCompatibility() {
 
     echo "  -> Applying security config for Let's Encrypt / SSL and custom for Nginx"
     if [[ ! -f /etc/nginx/snippets/letsencrypt.conf ]]; then
-        cp -f /opt/site-deployer/common/nginx/snippets/letsencrypt.conf /etc/nginx/snippets/letsencrypt.conf
-        cp -f /opt/site-deployer/common/nginx/snippets/exclusion.conf /etc/nginx/snippets/exclusion.conf
-        cp -f /opt/site-deployer/common/nginx/snippets/errors.conf /etc/nginx/snippets/errors.conf
-        cp -f /opt/site-deployer/common/nginx/snippets/static_files.conf /etc/nginx/snippets/static_files.conf
-        cp -f /opt/site-deployer/common/nginx/snippets/open_file_cache.conf /etc/nginx/snippets/open_file_cache.conf
-        cp -f /opt/site-deployer/common/nginx/snippets/fastcgi_cache.conf /etc/nginx/snippets/fastcgi_cache.conf
-        cp -f /opt/site-deployer/common/nginx/snippets/fastcgi-php.conf /etc/nginx/snippets/fastcgi-php.conf
+        cp -f $(dirname "$0")/common/nginx/snippets/letsencrypt.conf /etc/nginx/snippets/letsencrypt.conf
+        cp -f $(dirname "$0")/common/nginx/snippets/exclusion.conf /etc/nginx/snippets/exclusion.conf
+        cp -f $(dirname "$0")/common/nginx/snippets/errors.conf /etc/nginx/snippets/errors.conf
+        cp -f $(dirname "$0")/common/nginx/snippets/static_files.conf /etc/nginx/snippets/static_files.conf
+        cp -f $(dirname "$0")/common/nginx/snippets/open_file_cache.conf /etc/nginx/snippets/open_file_cache.conf
+        cp -f $(dirname "$0")/common/nginx/snippets/fastcgi_cache.conf /etc/nginx/snippets/fastcgi_cache.conf
+        cp -f $(dirname "$0")/common/nginx/snippets/fastcgi-php.conf /etc/nginx/snippets/fastcgi-php.conf
     fi
 
     echo ""

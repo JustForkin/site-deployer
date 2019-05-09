@@ -29,7 +29,7 @@ function enablefpm() {
 
     export PHPCLIENTFILE="/etc/php/$VERSION_PHP/fpm/pool.d/$DOMAIN.conf"
     # echo "### Copie du pool FPM $PHPCLIENTFILE"
-    # cp /opt/site-deployer/common/pool.conf $PHPCLIENTFILE
+    # cp $(dirname "$0")/common/pool.conf $PHPCLIENTFILE
     # sed -i "s/{CLIENT_NAME}/$CLIENT_NAME/g" $PHPCLIENTFILE
     # sed -i "s/{SERVERNAME}/$DOMAIN/g" $PHPCLIENTFILE
     # sed -i "s/{PHPUSER}/$CLIENT_NAME/g" $PHPCLIENTFILE

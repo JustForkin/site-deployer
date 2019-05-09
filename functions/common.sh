@@ -95,19 +95,19 @@ function newDeploy() {
 
     case $OPT in
         "cloudflare")
-            VHOSTFILE="/opt/site-deployer/common/vhost-https-cloudflare.conf"
+            VHOSTFILE="$(dirname "$0")/common/vhost-https-cloudflare.conf"
             export VHOST_MOD="cloudflare"
             ;;
         "-cgi")
-            VHOSTFILE="/opt/site-deployer/common/vhost-https-fastcgi.conf"
+            VHOSTFILE="$(dirname "$0")/common/vhost-https-fastcgi.conf"
             export VHOST_MOD="fastcgi"
             ;;
         "cloudflare-cgi")
-            VHOSTFILE="/opt/site-deployer/common/vhost-https-cloudflare-fastcgi.conf"
+            VHOSTFILE="$(dirname "$0")/common/vhost-https-cloudflare-fastcgi.conf"
             export VHOST_MOD="cloudflare+fastcgi"
             ;;
         *)
-            VHOSTFILE="/opt/site-deployer/common/vhost-https.conf"
+            VHOSTFILE="$(dirname "$0")/common/vhost-https.conf"
             export VHOST_MOD="nocache"
             ;;
     esac
@@ -282,8 +282,8 @@ function install() {
     else
         echo -e "   -> ${RED}Website directory already exist, please rechecks vars${CLASSIC}"
     fi
-    cp /opt/site-deployer/common/errors/index.html ${CLIENT_DIR}/web/index.html
-    cp /opt/site-deployer/common/errors ${CLIENT_DIR}/web/error -R
+    cp $(dirname "$0")/common/errors/index.html ${CLIENT_DIR}/web/index.html
+    cp $(dirname "$0")/common/errors ${CLIENT_DIR}/web/error -R
 
     sleep 1
 
@@ -308,7 +308,7 @@ function install() {
     sleep 1
 
     echo "  -> Deploying Nginx website configuration"
-    cp /opt/site-deployer/$VHOST_TEMPLATE $HTTPCLIENTFILE
+    cp $(dirname "$0")/$VHOST_TEMPLATE $HTTPCLIENTFILE
     sed -i "s/{CLIENT_NAME}/$CLIENT_NAME/g" $HTTPCLIENTFILE
     sed -i "s/{SERVERNAME}/$DOMAIN/g" $HTTPCLIENTFILE
     sed -i "s/{DOM_PRINCIPAL}/$DOM_PRINCIPAL/g" $HTTPCLIENTFILE
@@ -322,7 +322,7 @@ function install() {
     sleep 1
 
     echo "  -> Deploying PHP-FPM pool configuration"
-    cp /opt/site-deployer/common/php/pool.conf ${PHPCLIENTFILE}
+    cp $(dirname "$0")/common/php/pool.conf ${PHPCLIENTFILE}
     sed -i "s/{CLIENT_NAME}/$CLIENT_NAME/g" ${PHPCLIENTFILE}
     sed -i "s/{SERVERNAME}/${DOM_PRINCIPAL}/g" ${PHPCLIENTFILE}
     sed -i "s/{PHPUSER}/$CLIENT_NAME/g" ${PHPCLIENTFILE}
@@ -330,7 +330,7 @@ function install() {
     sleep 1
 
     echo "  -> Creating logrotate configuration"
-    cp /opt/site-deployer/common/system/logrotate.conf $LOGROTATE_FILE
+    cp $(dirname "$0")/common/system/logrotate.conf $LOGROTATE_FILE
     sed -i "s/{SERVERNAME}/$DOM_PRINCIPAL/g" $LOGROTATE_FILE
     sed -i "s/{CLIENT_NAME}/$CLIENT_NAME/g" $LOGROTATE_FILE
 
