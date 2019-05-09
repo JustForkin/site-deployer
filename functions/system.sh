@@ -1,7 +1,7 @@
 function checkCompatibility() {
-    source /opt/site-deployer/functions/cloudflare.sh
-    source /opt/site-deployer/functions/vars.sh
-    source /opt/site-deployer/functions/common.sh
+    dirname "$(realpath $0)"/functions/cloudflare.sh
+    dirname "$(realpath $0)"/functions/vars.sh
+    dirname "$(realpath $0)"/functions/common.sh
     
     echo ""
     echo "## Checking for system"
@@ -253,9 +253,9 @@ function checkCompatibility() {
 }
 
 function checkConfigFile() {
-    source /opt/site-deployer/functions/common.sh
-    source /opt/site-deployer/functions/vars.sh
-    source /opt/site-deployer/functions/nginx.sh
+    dirname "$(realpath $0)"/functions/common.sh
+    dirname "$(realpath $0)"/functions/vars.sh
+    dirname "$(realpath $0)"/functions/nginx.sh
 
     if [[ -f /etc/sitedeploy/sitedeploy.conf ]]; then
         SYSTEM_CHECKER=$(whiptail --title "Site Deploy" --menu "Configuration file found !" 15 64 7 \

@@ -1,5 +1,5 @@
 function ftpasswd() {
-    source $(dirname "$0")/functions/vars.sh
+    source dirname "$(realpath $0)"/functions/vars.sh
 
     export FTP_PASSWORDHASH=$(mkpasswd --hash=md5 -s "$2")
     export UID_CLIENT=$(id -u ${CLIENT_NAME})

@@ -1,5 +1,5 @@
 function newCertbot() {
-        source $(dirname "$0")/functions/vars.sh
+        source dirname "$(realpath $0)"/functions/vars.sh
 
         case $1 in
                 "dns")

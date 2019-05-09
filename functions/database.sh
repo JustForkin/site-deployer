@@ -1,5 +1,5 @@
 function dbcreate() {
-    source $(dirname "$0")/functions/vars.sh
+    source dirname "$(realpath $0)"/functions/vars.sh
 
     cp ${DBSCRIPTSRC} ${DBSCRIPTDEST}
     sed -i "s/{DBNAME}/$1/g" ${DBSCRIPTDEST}
