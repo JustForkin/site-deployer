@@ -4,7 +4,8 @@ source /etc/environment
 source $(dirname "$0")/functions/vars.sh
 source $(dirname "$0")/functions/system.sh
 source $(dirname "$0")/functions/common.sh
-export IPV4=$(curl -s ip4.clara.net)
+IPV4=$(curl -s ip4.clara.net)
+export "$IPV4"
 
 clear
 echo -e "${WHITE}${BLUE}########${CLASSIC}################${CLASSIC}${RED}##########${CLASSIC}"
