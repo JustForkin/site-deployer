@@ -32,7 +32,7 @@ function checkCompatibility() {
     echo "## Checking for base packages"
     echo "  -> Installations can take some time, be patient..."
     echo "   -> Install base dependencies"
-    declare PACKAGES=( "whiptail" "curl" "jq" "whois" "vim" "python3" "python3-pip" "binutils" )
+    declare PACKAGES=( "whiptail" "curl" "jq" "whois" "vim" "python3" "binutils" )
     for PACKAGE in ${PACKAGES[@]}
     do
         which $PACKAGE >/dev/null 2>&1
@@ -47,6 +47,20 @@ function checkCompatibility() {
             fi
         fi
     done
+
+    echo "   -> Install Python PIP"
+    which pip3 >/dev/null 2>&1
+    if [[ ! $? -eq 0 ]]; then
+        apt-get install -y python3-pip >/dev/null 2>&1
+        if [[ $? -eq 0 ]]; then
+            echo -e "     --> Python3-PIP ${GREEN}successfully${CLASSIC} installed"
+            ln -s /usr/bin/pip3 /usr/bin/pip >/dev/null 2>&1
+        else
+            echo -e "     --> Python3-PIP install ${RED}failed${CLASSIC}"
+        fi
+    else
+        echo -e "     --> Python3-PIP ${GREEN}already installed${CLASSIC}"
+    fi
 
     echo "   -> Install Web Server"
     which nginx >/dev/null 2>&1
