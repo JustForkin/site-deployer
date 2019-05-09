@@ -41,7 +41,9 @@ function checkCompatibility() {
         else
             apt-get install -y $PACKAGE >/dev/null 2>&1
             if [[ $? -eq 0 ]]; then
-                echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+                echo -e "     --> $PACKAGE ${GREEN}successfully${CLASSIC} installed"
+            else
+                echo -e "     --> $PACKAGE install ${RED}failed${CLASSIC}"
             fi
         fi
     done
@@ -51,36 +53,72 @@ function checkCompatibility() {
     if [[ ! $? -eq 0 ]]; then
         apt-get install -y nginx >/dev/null 2>&1
         if [[ $? -eq 0 ]]; then
-            echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+            echo -e "     --> Nginx ${GREEN}successfully${CLASSIC} installed"
+        else
+            echo -e "     --> Nginx install ${RED}failed${CLASSIC}"
         fi
     else
-        echo -e "     --> $PACKAGE ${GREEN}already installed${CLASSIC}"
+        echo -e "     --> Nginx ${GREEN}already installed${CLASSIC}"
     fi
 
     echo "   -> Install FTP Server"
-    apt-get install -y proftpd >/dev/null 2>&1
-    if [[ $? -eq 0 ]]; then
-        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    which proftpd >/dev/null 2>&1
+    if [[ ! $? -eq 0 ]]; then
+        apt-get install -y proftpd >/dev/null 2>&1
+        if [[ $? -eq 0 ]]; then
+            echo -e "     --> Proftpd ${GREEN}successfully${CLASSIC} installed"
+        else
+            echo -e "     --> Proftpd install ${RED}failed${CLASSIC}"
+        fi
+    else
+        echo -e "     --> Proftpd ${GREEN}already installed${CLASSIC}"
     fi
+
     echo "   -> Install MySQL Server"
-    apt-get install -y mariadb-client mariadb-server >/dev/null 2>&1
-    if [[ $? -eq 0 ]]; then
-        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    which mysql >/dev/null 2>&1
+    if [[ ! $? -eq 0 ]]; then
+        apt-get install -y mariadb-client mariadb-server >/dev/null 2>&1
+        if [[ $? -eq 0 ]]; then
+            echo -e "     --> MySQL ${GREEN}successfully${CLASSIC} installed"
+        else
+            echo -e "     --> MySQL install ${RED}failed${CLASSIC}"
+        fi
+    else
+        echo -e "     --> MySQL ${GREEN}already installed${CLASSIC}"
     fi
+
     echo "   -> Install Certbot"
-    apt-get install -y certbot python3-certbot-dns-cloudflare >/dev/null 2>&1
-    if [[ $? -eq 0 ]]; then
-        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    which certbot >/dev/null 2>&1
+    if [[ ! $? -eq 0 ]]; then
+        apt-get install -y certbot >/dev/null 2>&1
+        if [[ $? -eq 0 ]]; then
+            echo -e "     --> Certbot ${GREEN}successfully${CLASSIC} installed"
+        else
+            echo -e "     --> Certbot install ${RED}failed${CLASSIC}"
+        fi
+    else
+        echo -e "     --> Certbot ${GREEN}already installed${CLASSIC}"
     fi
-    echo "   -> Install Certbot plugins"
+
+    echo "   -> Install Certbot Plugins"
     apt-get install -y python3-certbot-dns-cloudflare >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
-        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+        echo -e "     --> Certbot plugins ${GREEN}successfully${CLASSIC} installed"
+    else
+        echo -e "     --> Certbot plugins install ${RED}failed${CLASSIC}"
     fi
+
     echo "   -> Install Sendmail"
-    apt-get install -y sendmail >/dev/null 2>&1
-    if [[ $? -eq 0 ]]; then
-        echo -e "     --> Install ${GREEN}successfull${CLASSIC}"
+    which sendmail >/dev/null 2>&1
+    if [[ ! $? -eq 0 ]]; then
+        apt-get install -y sendmail >/dev/null 2>&1
+        if [[ $? -eq 0 ]]; then
+            echo -e "     --> Sendmail ${GREEN}successfully${CLASSIC} installed"
+        else
+            echo -e "     --> Sendmail install ${RED}failed${CLASSIC}"
+        fi
+    else
+        echo -e "     --> Sendmail ${GREEN}already installed${CLASSIC}"
     fi
 
     echo ""
