@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export SCRIPT_PATH=$(source "$(dirname "$0")")
+export SCRIPT_PATH=$(dirname "$0")
 export RED="\033[31m"
 export GREEN="\033[32m"
 export BLUE="\e[34m"
