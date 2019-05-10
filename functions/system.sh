@@ -273,14 +273,15 @@ function checkCompatibility() {
         chmod +x wp-cli.phar
         mv wp-cli.phar /usr/local/bin/wp
     else
-        echo "  -> Found WP-CLI binaries"
+        WP_CLI_VER=$(wp --version --allow-root >/dev/null 2>&1)
+        echo "  -> Found WP-CLI binaries - $WP_CLI_VER"
     fi
 
     echo ""
     sleep 1
 
+    echo "## Checking for dhparam key"
     if [[ ! -f /etc/ssl/certs/dhparam.pem ]] && [[ "$1" != "dryrun" ]]; then
-        echo "## Checking for dhparam key"
         OPENSSL_BIN=$(which openssl)
         ${OPENSSL_BIN} dhparam -out /etc/ssl/certs/dhparam.pem 4096
         echo -e "  -> DHPARAM ${GREEN}successfully${CLASSIC} generated"
