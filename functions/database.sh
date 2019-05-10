@@ -6,6 +6,9 @@ export MY_SCRIPT_PATH
 function dbcreate() {
     source ${MY_SCRIPT_PATH}/functions/vars.sh
 
+    if [[ -f ${DBSCRIPTDEST} ]]; then
+        rm -f ${DBSCRIPTDEST}
+    fi
     cp ${DBSCRIPTSRC} ${DBSCRIPTDEST}
     sed -i "s/{DBNAME}/$1/g" ${DBSCRIPTDEST}
     sed -i "s/{DBUSR}/$2/g" ${DBSCRIPTDEST} 
