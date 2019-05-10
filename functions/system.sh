@@ -340,6 +340,7 @@ function checkCompatibility() {
 function checkConfigFile() {
     source ${MY_SCRIPT_PATH}/functions/common.sh
     source ${MY_SCRIPT_PATH}/functions/vars.sh
+    source ${MY_SCRIPT_PATH}/functions/wordpress.sh
 
     if [[ -f /etc/sitedeploy/sitedeploy.conf ]]; then
         SYSTEM_CHECKER=$(whiptail --title "Site Deploy" --menu "Configuration file found !" 15 64 7 \
@@ -371,10 +372,7 @@ function checkConfigFile() {
                 fi
                 ;;
             4)
-                if [[ -f ${SD_CONF_FILE} ]]; then
-                    echo "  -> Modify Default WP plugin list"
-                    echo "   -> To modify this list, please edit ${SD_CONF_FILE}"
-                fi
+                modifyDefaultPluginList
                 ;;
             5)
                 rollback
