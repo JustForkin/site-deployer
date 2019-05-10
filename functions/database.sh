@@ -1,4 +1,8 @@
 #!/bin/bash
+MY_SCRIPT=$(readlink -f $0)
+MY_SCRIPT_PATH=`dirname $MY_SCRIPT`
+export MY_SCRIPT_PATH
+
 function dbcreate() {
     source ${MY_SCRIPT_PATH}/functions/vars.sh
 

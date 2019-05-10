@@ -280,8 +280,7 @@ function install() {
     fi
     if [[ ! -d $CLIENT_DIR ]]; then
         mkdir -p ${CLIENT_DIR}/{web,sessions,tmp,log,backup}
-        cd /var/www/html
-        ln -s clients/${CLIENT_NAME}/${DOM_PRINCIPAL}/web ./${DOM_PRINCIPAL}
+        ln -s /var/www/html/clients/${CLIENT_NAME}/${DOM_PRINCIPAL}/web /var/www/html/${DOM_PRINCIPAL}
     else
         echo -e "   -> ${RED}Website directory already exist, please rechecks vars${CLASSIC}"
     fi
@@ -476,8 +475,7 @@ function install() {
     find ${CLIENT_DIR} -type d -exec chmod 755 "{}" \;
 
     if (whiptail --title "Activate" --yesno "Do you wan't to activate your site $DOM_PRINCIPAL ?" 10 60) then
-        cd /etc/nginx/sites-enabled
-        ln -s ../sites-available/001-$DOM_PRINCIPAL.conf ./
+        ln -s /etc/nginx/sites-available/001-$DOM_PRINCIPAL.conf /etc/nginx/sites-enabled/001-$DOM_PRINCIPAL.conf
         systemctl reload nginx.service >/dev/null 2>&1
         if [[ $? -eq 0 ]]; then
             echo -e "   -> Reload Nginx ${GREEN}Successfull${CLASSIC}"
