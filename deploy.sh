@@ -2,9 +2,9 @@
 
 # shellcheck disable=SC1091
 . /etc/environment
-. "${SCRIPT_PATH}"/functions/vars.sh
-. "${SCRIPT_PATH}"/functions/system.sh
-. "${SCRIPT_PATH}"/functions/common.sh
+source "${SCRIPT_PATH}"/functions/vars.sh
+source "${SCRIPT_PATH}"/functions/system.sh
+source "${SCRIPT_PATH}"/functions/common.sh
 IPV4=$(curl -s ip4.clara.net)
 export IPV4
 
