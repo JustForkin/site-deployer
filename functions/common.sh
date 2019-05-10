@@ -48,14 +48,13 @@ function newDeploy() {
     done
 
     export CLIENT_DIR="/var/www/html/clients/$CLIENT_NAME/$DOM_PRINCIPAL"
-    export CLIENT_HOME="$WEBROOTDIR/clients/$CLIENT_NAME"
+    export CLIENT_HOME="/var/www/html/clients/$CLIENT_NAME"
     export LOGROTATE_FILE="/etc/logrotate.d/$DOM_PRINCIPAL.conf"
     export NGINX_REWRITE_FILE="/etc/nginx/rewrites/$DOM_PRINCIPAL.conf"
     export SECRET_FILE="/var/www/html/clients/$CLIENT_NAME/secrets.ini"
     export HTTPCLIENTFILE="$NGINXSITESAVDIR/001-$DOM_PRINCIPAL.conf"
     export HTTPENABLEDCLIENTFILE="$NGINXSITESENDIR/001-$DOM_PRINCIPAL.conf"
 
-    
     export ASKED_PHP_VERSION=$(whiptail --title "PHP Version" --menu "Which PHP version do you want to use ?" 14 60 4 \
         "1" "PHP 7.0" \
         "2" "PHP 7.1" \
@@ -137,6 +136,9 @@ function newDeploy() {
                 echo "CERTBOT_EMAIL=$CERTBOT_EMAIL" >> ${SD_CONF_FILE}
                 echo "RSA_KEY_SIZE=4096" >> ${SD_CONF_FILE}
                 echo "" >> $SD_CONF_FILE
+            else
+                CERTBOT_EMAIL=$(cat $SD_CONF_FILE | grep "CERTBOT_EMAIL" | cut -d\= -f2)
+                CERTBOT_EMAIL=$(whiptail --title "Certbot Email" --inputbox "Please type your email for Certbot alerts" 10 60 $CERTBOT_EMAIL 3>&1 1>&2 2>&3)
             fi
             CERTBOT_CHALLENGE_TYPE_ASK=$(whiptail --title "Certbot challenge" --menu "Which challenge do you want use ?" 13 70 4 \
                 "1" "DNS Challenge" \
