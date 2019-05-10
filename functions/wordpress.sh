@@ -31,8 +31,8 @@ function wordpressdeploy() {
 
 function modifyDefaultPluginList() {
     if [[ -f ${SD_CONF_FILE} ]]; then
-        PLUGIN_LIST_TMP=$(cat ${SD_CONF_FILE} | grep "WP_DEFAULT_PLUGINS" | cut -d\= -f2)
-        PLUGIN_LIST=$(whiptail --title "Plugin List" --inputbox "Add or remove plugins" 10 90 $PLUGIN_LIST_TMP 3>&1 1>&2 2>&3)
+        declare PLUGIN_LIST_TMP=$(cat ${SD_CONF_FILE} | grep "WP_DEFAULT_PLUGINS" | cut -d\= -f2 | sed 's/\ /\"\ \"/g' | sed 's/^/\"/g' | sed 's/$/\"/g')
+        PLUGIN_LIST=$(whiptail --title "Plugin List" --inputbox "Add or remove plugins" 10 90 ${PLUGIN_LIST_TMP[@]} 3>&1 1>&2 2>&3)
         sed "s/^WP_DEFAULT_PLUGIN.*/WP_DEFAULT_PLUGIN=$PLUGIN_LIST/" ${SD_CONF_FILE}
         if [[ $? -eq 0 ]]; then
             whiptail --title "WP Plugin list" --msgbox "Default plugin list successfully updated !" 10 60
