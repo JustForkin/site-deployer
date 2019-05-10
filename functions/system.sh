@@ -339,7 +339,6 @@ function checkCompatibility() {
 function checkConfigFile() {
     source $(dirname "$0")/functions/common.sh
     source $(dirname "$0")/functions/vars.sh
-    source $(dirname "$0")/functions/nginx.sh
 
     if [[ -f /etc/sitedeploy/sitedeploy.conf ]]; then
         SYSTEM_CHECKER=$(whiptail --title "Site Deploy" --menu "Configuration file found !" 15 64 7 \

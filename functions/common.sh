@@ -1,7 +1,6 @@
 #!/bin/bash
 
 function newDeploy() {
-    source $(dirname "$0")/functions/nginx.sh
     source $(dirname "$0")/functions/resume.sh
     source $(dirname "$0")/functions/vars.sh
     source $(dirname "$0")/functions/cloudflare.sh
