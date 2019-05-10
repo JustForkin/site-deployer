@@ -273,7 +273,7 @@ function checkCompatibility() {
         chmod +x wp-cli.phar
         mv wp-cli.phar /usr/local/bin/wp
     else
-        WP_CLI_VER=$(wp --version --allow-root >/dev/null 2>&1)
+        WP_CLI_VER=$(wp --version --allow-root)
         echo "  -> Found WP-CLI binaries - $WP_CLI_VER"
     fi
 
