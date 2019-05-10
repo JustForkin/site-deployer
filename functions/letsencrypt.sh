@@ -1,6 +1,6 @@
 #!/bin/bash
 function newCertbot() {
-        source $(dirname "$0")/functions/vars.sh
+        source ${MY_SCRIPT_PATH}/functions/vars.sh
 
         case $1 in
                 "dns")

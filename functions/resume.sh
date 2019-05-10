@@ -1,7 +1,7 @@
 #!/bin/bash
 function resume() {
-    source $(dirname "$0")/functions/vars.sh
-    source $(dirname "$0")/functions/common.sh
+    source ${MY_SCRIPT_PATH}/functions/vars.sh
+    source ${MY_SCRIPT_PATH}/functions/common.sh
 
     RESUME_FILE="/tmp/$DOMAIN.ini"
     touch $RESUME_FILE

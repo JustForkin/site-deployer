@@ -1,6 +1,6 @@
 #!/bin/bash
 function wordpressdeploy() {
-    source $(dirname "$0")/functions/vars.sh
+    source ${MY_SCRIPT_PATH}/functions/vars.sh
 
     cd ${3}
     echo "   -> Downloading latest Wordpress version"

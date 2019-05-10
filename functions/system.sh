@@ -1,8 +1,8 @@
 #!/bin/bash
 function checkCompatibility() {
-    source $(dirname "$0")/functions/cloudflare.sh
-    source $(dirname "$0")/functions/vars.sh
-    source $(dirname "$0")/functions/common.sh
+    source ${MY_SCRIPT_PATH}/functions/cloudflare.sh
+    source ${MY_SCRIPT_PATH}/functions/vars.sh
+    source ${MY_SCRIPT_PATH}/functions/common.sh
     
     echo "## Checking for system"
     echo "  -> Updating repos"
@@ -251,13 +251,13 @@ function checkCompatibility() {
 
     echo "  -> Applying security config for Let's Encrypt / SSL and custom for Nginx"
     if [[ ! -f /etc/nginx/snippets/letsencrypt.conf ]]; then
-        cp -f $(dirname "$0")/common/nginx/snippets/letsencrypt.conf /etc/nginx/snippets/letsencrypt.conf
-        cp -f $(dirname "$0")/common/nginx/snippets/exclusion.conf /etc/nginx/snippets/exclusion.conf
-        cp -f $(dirname "$0")/common/nginx/snippets/errors.conf /etc/nginx/snippets/errors.conf
-        cp -f $(dirname "$0")/common/nginx/snippets/static_files.conf /etc/nginx/snippets/static_files.conf
-        cp -f $(dirname "$0")/common/nginx/snippets/open_file_cache.conf /etc/nginx/snippets/open_file_cache.conf
-        cp -f $(dirname "$0")/common/nginx/snippets/fastcgi_cache.conf /etc/nginx/snippets/fastcgi_cache.conf
-        cp -f $(dirname "$0")/common/nginx/snippets/fastcgi-php.conf /etc/nginx/snippets/fastcgi-php.conf
+        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/letsencrypt.conf /etc/nginx/snippets/letsencrypt.conf
+        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/exclusion.conf /etc/nginx/snippets/exclusion.conf
+        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/errors.conf /etc/nginx/snippets/errors.conf
+        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/static_files.conf /etc/nginx/snippets/static_files.conf
+        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/open_file_cache.conf /etc/nginx/snippets/open_file_cache.conf
+        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/fastcgi_cache.conf /etc/nginx/snippets/fastcgi_cache.conf
+        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/fastcgi-php.conf /etc/nginx/snippets/fastcgi-php.conf
     fi
 
     echo ""
@@ -338,8 +338,8 @@ function checkCompatibility() {
 }
 
 function checkConfigFile() {
-    source $(dirname "$0")/functions/common.sh
-    source $(dirname "$0")/functions/vars.sh
+    source ${MY_SCRIPT_PATH}/functions/common.sh
+    source ${MY_SCRIPT_PATH}/functions/vars.sh
 
     if [[ -f /etc/sitedeploy/sitedeploy.conf ]]; then
         SYSTEM_CHECKER=$(whiptail --title "Site Deploy" --menu "Configuration file found !" 15 64 7 \

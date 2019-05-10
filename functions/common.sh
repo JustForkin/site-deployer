@@ -1,9 +1,9 @@
 #!/bin/bash
 
 function newDeploy() {
-    source $(dirname "$0")/functions/resume.sh
-    source $(dirname "$0")/functions/vars.sh
-    source $(dirname "$0")/functions/cloudflare.sh
+    source ${MY_SCRIPT_PATH}/functions/resume.sh
+    source ${MY_SCRIPT_PATH}/functions/vars.sh
+    source ${MY_SCRIPT_PATH}/functions/cloudflare.sh
 
     export CLIENT_NAME=$(whiptail --title "Client name" --inputbox "Client name, will be used for client folder" 10 60 3>&1 1>&2 2>&3)
     export DOMAIN=$(whiptail --title "Domain" --inputbox "First level domain name" 10 60 3>&1 1>&2 2>&3)
@@ -84,31 +84,31 @@ function newDeploy() {
     fi
     export PHPCLIENTFILE="/etc/php/$VERSION_PHP/fpm/pool.d/$DOM_PRINCIPAL.conf"
 
-    OPT=""
-    if (whiptail --title "CloudFlare" --yesno "Do you want to use Cloudflare caching ?" 10 60) then
-        OPT="cloudflare"
-    fi
-    if (whiptail --title "FastCGI Cache" --yesno "Do you want to enable FastCGI caching ?" 10 60) then
-        OPT="$OPT-cgi"
-    fi
+    # OPT=""
+    # if (whiptail --title "CloudFlare" --yesno "Do you want to use Cloudflare caching ?" 10 60) then
+    #     OPT="cloudflare"
+    # fi
+    # if (whiptail --title "FastCGI Cache" --yesno "Do you want to enable FastCGI caching ?" 10 60) then
+    #     OPT="$OPT-cgi"
+    # fi
 
-    export VHOST_TEMPLATE="common/nginx/vhost-https.conf"
+    export VHOST_TEMPLATE="${MY_SCRIPT_PATH}/common/nginx/vhost-https.conf"
 
     case $OPT in
         "cloudflare")
-            VHOSTFILE="$(dirname "$0")/common/vhost-https-cloudflare.conf"
+            VHOSTFILE="${MY_SCRIPT_PATH}/common/vhost-https-cloudflare.conf"
             export VHOST_MOD="cloudflare"
             ;;
         "-cgi")
-            VHOSTFILE="$(dirname "$0")/common/vhost-https-fastcgi.conf"
+            VHOSTFILE="${MY_SCRIPT_PATH}/common/vhost-https-fastcgi.conf"
             export VHOST_MOD="fastcgi"
             ;;
         "cloudflare-cgi")
-            VHOSTFILE="$(dirname "$0")/common/vhost-https-cloudflare-fastcgi.conf"
+            VHOSTFILE="${MY_SCRIPT_PATH}/common/vhost-https-cloudflare-fastcgi.conf"
             export VHOST_MOD="cloudflare+fastcgi"
             ;;
         *)
-            VHOSTFILE="$(dirname "$0")/common/vhost-https.conf"
+            VHOSTFILE="${MY_SCRIPT_PATH}/common/vhost-https.conf"
             export VHOST_MOD="nocache"
             ;;
     esac
@@ -169,7 +169,7 @@ function newDeploy() {
             export LE_DOMAIN_LIST=$(echo $DOMAIN_ASK | sed 's/\ /\ -d\ /g')
         else
             export USE_SSL="off"
-            export VHOST_TEMPLATE="common/nginx/vhost-http.conf"
+            export VHOST_TEMPLATE="${MY_SCRIPT_PATH}/common/nginx/vhost-http.conf"
         fi
     fi
  
@@ -258,12 +258,12 @@ function newDeploy() {
 }
 
 function install() {
-    source $(dirname "$0")/functions/vars.sh
-    source $(dirname "$0")/functions/letsencrypt.sh
-    source $(dirname "$0")/functions/cloudflare.sh
-    source $(dirname "$0")/functions/proftpd.sh
-    source $(dirname "$0")/functions/wordpress.sh
-    source $(dirname "$0")/functions/database.sh
+    source ${MY_SCRIPT_PATH}/functions/vars.sh
+    source ${MY_SCRIPT_PATH}/functions/letsencrypt.sh
+    source ${MY_SCRIPT_PATH}/functions/cloudflare.sh
+    source ${MY_SCRIPT_PATH}/functions/proftpd.sh
+    source ${MY_SCRIPT_PATH}/functions/wordpress.sh
+    source ${MY_SCRIPT_PATH}/functions/database.sh
 
     echo "## Starting deployment"
     if (whiptail --title "Cloudflare DNS Validation" --yesno "Do you wan't to update automatically your DNS Record with Cloudflare API ?" 10 60) then
@@ -283,8 +283,8 @@ function install() {
     else
         echo -e "   -> ${RED}Website directory already exist, please rechecks vars${CLASSIC}"
     fi
-    cp $(dirname "$0")/common/errors/index.html ${CLIENT_DIR}/web/index.html
-    cp $(dirname "$0")/common/errors ${CLIENT_DIR}/web/error -R
+    cp ${MY_SCRIPT_PATH}/common/errors/index.html ${CLIENT_DIR}/web/index.html
+    cp ${MY_SCRIPT_PATH}/common/errors ${CLIENT_DIR}/web/error -R
 
     sleep 1
 
@@ -309,7 +309,7 @@ function install() {
     sleep 1
 
     echo "  -> Deploying Nginx website configuration"
-    cp $(dirname "$0")/$VHOST_TEMPLATE $HTTPCLIENTFILE
+    cp $VHOST_TEMPLATE $HTTPCLIENTFILE
     sed -i "s/{CLIENT_NAME}/$CLIENT_NAME/g" $HTTPCLIENTFILE
     sed -i "s/{SERVERNAME}/$DOMAIN/g" $HTTPCLIENTFILE
     sed -i "s/{DOM_PRINCIPAL}/$DOM_PRINCIPAL/g" $HTTPCLIENTFILE
@@ -323,7 +323,7 @@ function install() {
     sleep 1
 
     echo "  -> Deploying PHP-FPM pool configuration"
-    cp $(dirname "$0")/common/php/pool.conf ${PHPCLIENTFILE}
+    cp ${MY_SCRIPT_PATH}/common/php/pool.conf ${PHPCLIENTFILE}
     sed -i "s/{CLIENT_NAME}/$CLIENT_NAME/g" ${PHPCLIENTFILE}
     sed -i "s/{SERVERNAME}/${DOM_PRINCIPAL}/g" ${PHPCLIENTFILE}
     sed -i "s/{PHPUSER}/$CLIENT_NAME/g" ${PHPCLIENTFILE}
@@ -331,7 +331,7 @@ function install() {
     sleep 1
 
     echo "  -> Creating logrotate configuration"
-    cp $(dirname "$0")/common/system/logrotate.conf $LOGROTATE_FILE
+    cp ${MY_SCRIPT_PATH}/common/system/logrotate.conf $LOGROTATE_FILE
     sed -i "s/{SERVERNAME}/$DOM_PRINCIPAL/g" $LOGROTATE_FILE
     sed -i "s/{CLIENT_NAME}/$CLIENT_NAME/g" $LOGROTATE_FILE
 

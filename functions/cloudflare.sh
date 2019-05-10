@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $(dirname "$0")/functions/vars.sh
+source ${MY_SCRIPT_PATH}/functions/vars.sh
 
 function checkingCFRecord() {
     MY_IP=$(curl -s ip4.clara.net)
@@ -109,7 +109,7 @@ function cloudflareRealIPConfiguration() {
 }
 
 function cloudflareAccoundChecker() {
-    source $(dirname "$0")/functions/vars.sh
+    source ${MY_SCRIPT_PATH}/functions/vars.sh
 
     CF_TESTER=$(curl -sX GET "https://api.cloudflare.com/client/v4/accounts?page=1&per_page=20&direction=desc" -H "X-Auth-Email: $1" -H "X-Auth-Key: $2" -H "Content-Type: application/json")
     export CF_TESTER_RESULT=$(echo $CF_TESTER | jq '.success')
