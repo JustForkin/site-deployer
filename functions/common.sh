@@ -550,6 +550,7 @@ function rollback() {
 }
 
 function updateNginxConfiguration() {
+    echo "## Nginx Snippet updater"
     for CONF in $(ls $SNIPPETS_FILES)
     do
         if [[ -f /etc/nginx/snippets/$CONF ]]; then
