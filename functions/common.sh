@@ -565,10 +565,10 @@ function updateNginxConfiguration() {
                 fi
             fi
         else
-            whiptail --title "New Snippet" --msgbox "New snippet available for Nginx : $CONF !" 10 60
+            # whiptail --title "New Snippet" --msgbox "New snippet available for Nginx : $CONF !" 10 60
             rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
             if [[ $? -eq 0 ]]; then
-                echo -e "   -> Snippet $CONF ${GREEN}successfully added${CLASSIC}"
+                echo -e "   -> New snippet $CONF ${GREEN}successfully added${CLASSIC}"
             else
                 echo -e "   -> ${RED}Fail${CLASSIC} to add snippets $CONF !"
             fi
