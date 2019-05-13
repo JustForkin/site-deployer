@@ -2,11 +2,13 @@
 
 export MY_SCRIPT=$(readlink -f $0)
 export MY_SCRIPT_PATH=`dirname $MY_SCRIPT`
-export RED="\033[31m"
-export GREEN="\033[32m"
+export RED="\e[31m"
+export ORANGE="\e[93m"
+export GREEN="\e[32m"
 export BLUE="\e[34m"
 export WHITE="\e[1m"
-export CLASSIC="\033[0m"
+export YELLOW="\e[33m"
+export CLASSIC="\e[39m"
 export SD_CONF_FILE="/etc/sitedeploy/sitedeploy.conf"
 export CERTBOT_DNS_PLUGIN_OVH="/etc/sitedeploy/ovh.secret"
 export PROFTPD_PASSWD_FILE="/etc/proftpd/ftpd.passwd"

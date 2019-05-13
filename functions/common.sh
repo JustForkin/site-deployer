@@ -555,10 +555,13 @@ function updateNginxConfiguration() {
     for CONF in $(ls $SNIPPETS_FILES)
     do
         echo "  -> Checking for $CONF file"
-	if [[ "$(md5sum $SNIPPETS_FILES/$CONF | awk '{print $1}')" != "$(md5sum /etc/nginx/snippets/$CONF | awk '{print $1}')" ]]; then
-		echo "	-> Conf file need to be updated !"
-	else
-		echo "	-> Conf file up to date"
-	fi
+	    if [[ "$(md5sum $SNIPPETS_FILES/$CONF | awk '{print $1}')" != "$(md5sum /etc/nginx/snippets/$CONF | awk '{print $1}')" ]]; then
+		    echo -e "	-> Conf file ${YELLOW}need to be updated !${CLASSIC}"
+            rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
+            if [[ $? -eq 0 ]]; then
+                echo -e "   -> Configuration ${GREEN}successfully updated${CLASSIC}"
+	    else
+		    echo -e "	-> Conf file ${GREEN}up to date${CLASSIC}"
+	    fi
     done
 }

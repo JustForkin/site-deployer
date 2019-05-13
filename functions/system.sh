@@ -35,7 +35,7 @@ function checkCompatibility() {
     echo "## Checking for base packages"
     echo "  -> Installations can take some time, be patient..."
     echo "   -> Install base dependencies"
-    declare PACKAGES=( "whiptail" "curl" "jq" "whois" "vim" "python3" "binutils" )
+    declare PACKAGES=( "whiptail" "curl" "jq" "whois" "vim" "python3" "binutils" "rsync" )
     for PACKAGE in "${PACKAGES[@]}"
     do
         which $PACKAGE >/dev/null 2>&1
