@@ -594,4 +594,5 @@ function updateNginxConfiguration() {
             done="true"
             ;;
     esac
+    echo "  -> Updating config done"
 }
