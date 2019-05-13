@@ -556,12 +556,27 @@ function updateNginxConfiguration() {
     do
         echo "  -> Checking for $CONF file"
 	    if [[ "$(md5sum $SNIPPETS_FILES/$CONF | awk '{print $1}')" != "$(md5sum /etc/nginx/snippets/$CONF | awk '{print $1}')" ]]; then
-		    echo -e "	-> Conf file ${YELLOW}need to be updated !${CLASSIC}"
-            rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
-            if [[ $? -eq 0 ]]; then
-                echo -e "   -> Configuration ${GREEN}successfully updated${CLASSIC}"
-	    else
-		    echo -e "	-> Conf file ${GREEN}up to date${CLASSIC}"
+            case $1 in
+                "check")
+                    SNIPPETS_UPDATE="available"
+                    ;;
+                *)
+                    rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
+                    if [[ $? -eq 0 ]]; then
+                        echo -e "   -> Configuration ${GREEN}successfully updated${CLASSIC}"
+                    else
+                        echo -e "   -> ${RED}Fail${CLASSIC} to update snippets !"
+                    fi
+                    ;;
+            esac
 	    fi
     done
+    case $SNIPPETS_UPDATE in
+        "available")
+            whiptail --title "Update Available" --msgbox "Updates available for Nginx Snippets !" 10 60
+            ;;
+        *)
+            echo ""
+            ;;
+    esac
 }

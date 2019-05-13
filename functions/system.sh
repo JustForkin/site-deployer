@@ -343,7 +343,7 @@ function checkConfigFile() {
     source ${MY_SCRIPT_PATH}/functions/wordpress.sh
 
     if [[ -f /etc/sitedeploy/sitedeploy.conf ]]; then
-        updateNginxConfiguration
+        updateNginxConfiguration check
         SYSTEM_CHECKER=$(whiptail --title "Site Deploy" --menu "Configuration file found !" 15 64 8 \
             "1" "Deploy new Website" \
             "2" "Generate new certificate" \
