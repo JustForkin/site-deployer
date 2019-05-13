@@ -554,7 +554,6 @@ function updateNginxConfiguration() {
     echo "### Updating Nginx configuration with latest optimization"
     for CONF in $(ls $SNIPPETS_FILES)
     do
-        echo "  -> Checking for $CONF file"
 	    if [[ "$(md5sum $SNIPPETS_FILES/$CONF | awk '{print $1}')" != "$(md5sum /etc/nginx/snippets/$CONF | awk '{print $1}')" ]]; then
             case $1 in
                 "check")
@@ -573,10 +572,17 @@ function updateNginxConfiguration() {
     done
     case $SNIPPETS_UPDATE in
         "available")
-            whiptail --title "Update Available" --msgbox "Updates available for Nginx Snippets !" 10 60
+            case $1 in
+                "check")
+                    break
+                    ;;
+                *)
+                    whiptail --title "Update Available" --msgbox "Updates available for Nginx Snippets !" 10 60
+                    ;;
+            esac
             ;;
         *)
-            echo ""
+            break
             ;;
     esac
 }
