@@ -574,4 +574,5 @@ function updateNginxConfiguration() {
             fi
         fi
     done
+    echo "  -> Nginx Snippets Updater done"
 }
