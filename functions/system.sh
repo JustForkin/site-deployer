@@ -250,6 +250,7 @@ function checkCompatibility() {
         mkdir -p /var/cache/ngx_pagespeed_cache
         chown www-data:www-data /var/cache/ngx_pagespeed_cache
     fi
+    updateNginxConfiguration
 
     echo "  -> Applying security config for Let's Encrypt / SSL and custom for Nginx"
     if [[ ! -f /etc/nginx/snippets/letsencrypt.conf ]]; then

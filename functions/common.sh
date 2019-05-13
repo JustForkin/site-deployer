@@ -556,7 +556,6 @@ function updateNginxConfiguration() {
     do
         if [[ -f /etc/nginx/snippets/$CONF ]]; then
             if [[ "$(md5sum $SNIPPETS_FILES/$CONF | awk '{print $1}')" != "$(md5sum /etc/nginx/snippets/$CONF | awk '{print $1}')" ]]; then
-                whiptail --title "Update Available" --msgbox "Updates available for Nginx Snippets $CONF !" 10 60
                 rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
                 if [[ $? -eq 0 ]]; then
                     echo -e "   -> Snippet $CONF ${GREEN}successfully updated${CLASSIC}"
