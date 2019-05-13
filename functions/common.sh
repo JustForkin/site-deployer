@@ -480,7 +480,7 @@ function install() {
         if [[ $? -eq 0 ]]; then
             echo -e "   -> Reload Nginx ${GREEN}Successfull${CLASSIC}"
         fi
-        systemctl reload $PHP_BIN >/dev/null 2>&1
+        systemctl reload ${PHP_BIN} >/dev/null 2>&1
         if [[ $? -eq 0 ]]; then
             echo -e "   -> Reload PHP ${GREEN}Successfull${CLASSIC}"
         fi
