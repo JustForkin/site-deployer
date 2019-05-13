@@ -555,12 +555,10 @@ function updateNginxConfiguration() {
     for CONF in $(ls $SNIPPETS_FILES)
     do
         echo "  -> Checking for $CONF file"
-        ACTUAL_MD5=$(md5sum $SNIPPETS_FILES/$CONF)
-        OLD_MD5=$(md5sum /etc/nginx/snippets/$CONF)
-        if [[ "$ACTUAL_MD5" -ne "$OLD_MD5" ]]; then
-            echo "   -> Conf file need to be updated !"
-        else
-            echo "   -> Conf file up to date !"
-        fi
+	if [[ "$(md5sum $SNIPPETS_FILES/$CONF | awk '{print $1}')" != "$(md5sum /etc/nginx/snippets/$CONF | awk '{print $1}')" ]]; then
+		echo "	-> Conf file need to be updated !"
+	else
+		echo "	-> Conf file up to date"
+	fi
     done
 }
