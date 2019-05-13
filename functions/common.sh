@@ -554,27 +554,36 @@ function updateNginxConfiguration() {
     echo "### Updating Nginx configuration with latest optimization"
     for CONF in $(ls $SNIPPETS_FILES)
     do
-	    if [[ "$(md5sum $SNIPPETS_FILES/$CONF | awk '{print $1}')" != "$(md5sum /etc/nginx/snippets/$CONF | awk '{print $1}')" ]]; then
-            case $1 in
-                "check")
-                    SNIPPETS_UPDATE="available"
-                    ;;
-                *)
-                    rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
-                    if [[ $? -eq 0 ]]; then
-                        echo -e "   -> Snippet $CONF ${GREEN}successfully updated${CLASSIC}"
-                    else
-                        echo -e "   -> ${RED}Fail${CLASSIC} to update snippets $CONF !"
-                    fi
-                    ;;
-            esac
-	    fi
+        if [[ -f /etc/nginx/snippets/$CONF ]]; then
+            if [[ "$(md5sum $SNIPPETS_FILES/$CONF | awk '{print $1}')" != "$(md5sum /etc/nginx/snippets/$CONF | awk '{print $1}')" ]]; then
+                case $1 in
+                    "check")
+                        SNIPPETS_UPDATE="available"
+                        ;;
+                    *)
+                        rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
+                        if [[ $? -eq 0 ]]; then
+                            echo -e "   -> Snippet $CONF ${GREEN}successfully updated${CLASSIC}"
+                        else
+                            echo -e "   -> ${RED}Fail${CLASSIC} to update snippets $CONF !"
+                        fi
+                        ;;
+                esac
+            fi
+        else
+            rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
+            if [[ $? -eq 0 ]]; then
+                echo -e "   -> Snippet $CONF ${GREEN}successfully added${CLASSIC}"
+            else
+                echo -e "   -> ${RED}Fail${CLASSIC} to add snippets $CONF !"
+            fi
+        fi
     done
     case $SNIPPETS_UPDATE in
         "available")
             case $1 in
                 "check")
-                    break
+                    done="true"
                     ;;
                 *)
                     whiptail --title "Update Available" --msgbox "Updates available for Nginx Snippets !" 10 60
@@ -582,7 +591,7 @@ function updateNginxConfiguration() {
             esac
             ;;
         *)
-            break
+            done="true"
             ;;
     esac
 }
