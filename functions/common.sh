@@ -178,7 +178,7 @@ function newDeploy() {
     if (whiptail --title "Database" --yesno "Do you want to create a database ?" 10 60) then
         export DATABASE_OPT="Yes"
         export DB_PASSWORD=$(strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 30 | tr -d '\n'; echo)
-        TMP_BDD_USER=$(echo ${DOM_PRINCIPAL} | sed 's/www\.//g' | sed 's/\./_/g' | sed 's/_fr//g' | sed 's/_com//g' | sed 's/_co//g' | sed 's/__//g')
+        TMP_BDD_USER=$(echo ${DOM_PRINCIPAL} | sed 's/www\.//g' | sed 's/\./_/g' | sed 's/_fr//g' | sed 's/_com//g' | sed 's/_co//g' | sed 's/__//g' | sed 's/-/_/g')
         DB_USER="usr_$TMP_BDD_USER"
         DB_NAME="db_$TMP_BDD_USER"
         export DB_NAME=$(whiptail --title "DBName" --inputbox "Database name" 10 60 $DB_NAME 3>&1 1>&2 2>&3)
