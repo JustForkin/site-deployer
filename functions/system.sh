@@ -247,6 +247,8 @@ function checkCompatibility() {
     echo "## Applying some custom configurations and tuning to WebServer"
     if [[ ! -d /etc/nginx/snippets ]]; then
         mkdir /etc/nginx/snippets
+        mkdir -p /var/cache/ngx_pagespeed_cache
+        chown www-data:www-data /var/cache/ngx_pagespeed_cache
     fi
 
     echo "  -> Applying security config for Let's Encrypt / SSL and custom for Nginx"
@@ -343,14 +345,14 @@ function checkConfigFile() {
     source ${MY_SCRIPT_PATH}/functions/wordpress.sh
 
     if [[ -f /etc/sitedeploy/sitedeploy.conf ]]; then
-        updateNginxConfiguration check
+        updateNginxConfiguration
         SYSTEM_CHECKER=$(whiptail --title "Site Deploy" --menu "Configuration file found !" 15 64 8 \
             "1" "Deploy new Website" \
             "2" "Generate new certificate" \
             "3" "Generate DHParam Key" \
             "4" "Modify default WP Plugin list" \
             "5" "Rollback the last deploy" \
-            "6" "Update Nginx Configuration" \
+            "6" "Update Nginx Snippets Configuration" \
             "7" "Recheck my system and generate a new config file" \
             "8" "Exit" \
             3>&1 1>&2 2>&3)

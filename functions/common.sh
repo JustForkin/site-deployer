@@ -556,21 +556,16 @@ function updateNginxConfiguration() {
     do
         if [[ -f /etc/nginx/snippets/$CONF ]]; then
             if [[ "$(md5sum $SNIPPETS_FILES/$CONF | awk '{print $1}')" != "$(md5sum /etc/nginx/snippets/$CONF | awk '{print $1}')" ]]; then
-                case $1 in
-                    "check")
-                        SNIPPETS_UPDATE="available"
-                        ;;
-                    *)
-                        rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
-                        if [[ $? -eq 0 ]]; then
-                            echo -e "   -> Snippet $CONF ${GREEN}successfully updated${CLASSIC}"
-                        else
-                            echo -e "   -> ${RED}Fail${CLASSIC} to update snippets $CONF !"
-                        fi
-                        ;;
-                esac
+                whiptail --title "Update Available" --msgbox "Updates available for Nginx Snippets $CONF !" 10 60
+                rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
+                if [[ $? -eq 0 ]]; then
+                    echo -e "   -> Snippet $CONF ${GREEN}successfully updated${CLASSIC}"
+                else
+                    echo -e "   -> ${RED}Fail${CLASSIC} to update snippets $CONF !"
+                fi
             fi
         else
+            whiptail --title "New Snippet" --msgbox "New snippet available for Nginx : $CONF !" 10 60
             rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
             if [[ $? -eq 0 ]]; then
                 echo -e "   -> Snippet $CONF ${GREEN}successfully added${CLASSIC}"
@@ -579,20 +574,4 @@ function updateNginxConfiguration() {
             fi
         fi
     done
-    case $SNIPPETS_UPDATE in
-        "available")
-            case $1 in
-                "check")
-                    done="true"
-                    ;;
-                *)
-                    whiptail --title "Update Available" --msgbox "Updates available for Nginx Snippets !" 10 60
-                    ;;
-            esac
-            ;;
-        *)
-            done="true"
-            ;;
-    esac
-    echo "  -> Updating config done"
 }
