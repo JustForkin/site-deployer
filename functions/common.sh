@@ -547,7 +547,6 @@ function rollback() {
 
         echo -e "  -> Rollback ${GREEN}done${CLASSIC} for $ROLLBACK_DOMAIN"
     fi
-
 }
 
 function updateNginxConfiguration() {
@@ -563,7 +562,6 @@ function updateNginxConfiguration() {
                 fi
             fi
         else
-            # whiptail --title "New Snippet" --msgbox "New snippet available for Nginx : $CONF !" 10 60
             rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
             if [[ $? -eq 0 ]]; then
                 echo -e "   -> New snippet $CONF ${GREEN}successfully added${CLASSIC}"
