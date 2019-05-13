@@ -562,9 +562,9 @@ function updateNginxConfiguration() {
                 *)
                     rsync -azpq $SNIPPETS_FILES/$CONF /etc/nginx/snippets/$CONF --delete
                     if [[ $? -eq 0 ]]; then
-                        echo -e "   -> Configuration ${GREEN}successfully updated${CLASSIC}"
+                        echo -e "   -> Snippet $CONF ${GREEN}successfully updated${CLASSIC}"
                     else
-                        echo -e "   -> ${RED}Fail${CLASSIC} to update snippets !"
+                        echo -e "   -> ${RED}Fail${CLASSIC} to update snippets $CONF !"
                     fi
                     ;;
             esac
