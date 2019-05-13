@@ -552,9 +552,15 @@ function rollback() {
 
 function updateNginxConfiguration() {
     echo "### Updating Nginx configuration with latest optimization"
-    for file in $(ls $SNIPPETS_FILES)
+    for CONF in $(ls $SNIPPETS_FILES)
     do
-        echo $file
+        echo "  -> Checking for $CONF file"
+        ACTUAL_MD5=$(md5sum $SNIPPETS_FILES/$CONF)
+        OLD_MD5=$(md5sum /etc/nginx/snippets/$CONF)
+        if [[ "$ACTUAL_MD5" -ne "$OLD_MD5" ]]; then
+            echo "   -> Conf file need to be updated !"
+        else
+            echo "   -> Conf file up to date !"
+        fi
     done
-    
 }
