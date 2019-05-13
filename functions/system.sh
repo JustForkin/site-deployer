@@ -250,18 +250,9 @@ function checkCompatibility() {
         mkdir -p /var/cache/ngx_pagespeed_cache
         chown www-data:www-data /var/cache/ngx_pagespeed_cache
     fi
-    updateNginxConfiguration
 
     echo "  -> Applying security config for Let's Encrypt / SSL and custom for Nginx"
-    if [[ ! -f /etc/nginx/snippets/letsencrypt.conf ]]; then
-        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/letsencrypt.conf /etc/nginx/snippets/letsencrypt.conf
-        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/exclusion.conf /etc/nginx/snippets/exclusion.conf
-        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/errors.conf /etc/nginx/snippets/errors.conf
-        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/static_files.conf /etc/nginx/snippets/static_files.conf
-        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/open_file_cache.conf /etc/nginx/snippets/open_file_cache.conf
-        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/fastcgi_cache.conf /etc/nginx/snippets/fastcgi_cache.conf
-        cp -f ${MY_SCRIPT_PATH}/common/nginx/snippets/fastcgi-php.conf /etc/nginx/snippets/fastcgi-php.conf
-    fi
+    updateNginxConfiguration
 
     echo ""
     sleep 1

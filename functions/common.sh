@@ -551,7 +551,6 @@ function rollback() {
 }
 
 function updateNginxConfiguration() {
-    echo "### Updating Nginx configuration with latest optimization"
     for CONF in $(ls $SNIPPETS_FILES)
     do
         if [[ -f /etc/nginx/snippets/$CONF ]]; then
