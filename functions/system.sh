@@ -343,14 +343,16 @@ function checkConfigFile() {
     source ${MY_SCRIPT_PATH}/functions/wordpress.sh
 
     if [[ -f /etc/sitedeploy/sitedeploy.conf ]]; then
-        SYSTEM_CHECKER=$(whiptail --title "Site Deploy" --menu "Configuration file found !" 15 64 7 \
+        updateNginxConfiguration
+        SYSTEM_CHECKER=$(whiptail --title "Site Deploy" --menu "Configuration file found !" 15 64 8 \
             "1" "Deploy new Website" \
             "2" "Generate new certificate" \
             "3" "Generate DHParam Key" \
             "4" "Modify default WP Plugin list" \
             "5" "Rollback the last deploy" \
-            "6" "Recheck my system and generate a new config file" \
-            "7" "Exit" \
+            "6" "Update Nginx Configuration" \
+            "7" "Recheck my system and generate a new config file" \
+            "8" "Exit" \
             3>&1 1>&2 2>&3)
         exitstatus=$?
         case $SYSTEM_CHECKER in
@@ -378,10 +380,13 @@ function checkConfigFile() {
                 rollback
                 ;;
             6)
+                updateNginxConfiguration
+                ;;
+            7)
                 echo "### Compatibility check starting"
                 checkCompatibility
                 ;;
-            7)
+            8)
                 exit 1
                 ;;
             *)

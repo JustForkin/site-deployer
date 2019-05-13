@@ -549,3 +549,12 @@ function rollback() {
     fi
 
 }
+
+function updateNginxConfiguration() {
+    echo "### Updating Nginx configuration with latest optimization"
+    for file in $(ls $SNIPPETS_FILES)
+    do
+        echo $file
+    done
+    
+}
