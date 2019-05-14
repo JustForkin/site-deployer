@@ -13,7 +13,7 @@ function checkingCFRecord() {
     if [[ "$TEST_SUCCESS" == "true" ]]; then
         CF_ZONE_ID=$(echo $CF_ZONE_CHECK | jq '.result[].id' | sed 's/\"//g')
         echo -e "    -> Zone ${GREEN}OK${CLASSIC} in Cloudflare with ID : $CF_ZONE_ID"
-        ALIASES=$(whiptail --title "Aliases" --inputbox "Please type all your aliases" 10 60 $2 3>&1 1>&2 2>&3)
+        declare ALIASES=$(whiptail --title "Aliases" --inputbox "Please type all your aliases" 10 60 $2 3>&1 1>&2 2>&3)
         echo "  -> Getting record ID for $ALIASES"
         for DOM in "${ALIASES[@]}"
         do
