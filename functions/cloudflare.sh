@@ -19,7 +19,6 @@ function checkingCFRecord() {
         do
             echo "   -> Processing $DOM"
             CF_RECORD_CHECK=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records?type=A&name=$DOM" -H "X-Auth-Email: $CF_EMAIL" -H "X-Auth-Key: $CF_APIKEY" -H "Content-Type: application/json")
-            echo $CF_RECORD_CHECK | jq '.'
             CF_RECORD_SUCCESS=$(echo $CF_RECORD_CHECK | jq '.success')
             CF_RECORD_COUNT=$(echo $CF_RECORD_CHECK | jq '.result_info.count')
             if [[ "$CF_RECORD_COUNT" == "0" ]]; then
@@ -67,7 +66,6 @@ function createRecord() {
 function updateRecord() {
 	CF_UPDATE_RECORD_CHECK=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$5/dns_records/$4" -H "X-Auth-Email: $6" -H "X-Auth-Key: $7" -H "Content-Type: application/json" --data "{\"type\":\"$1\",\"name\":\"$2\",\"content\":\"$3\"}")
     CF_CHECK_UPDATE_RECORD=$(echo $CF_UPDATE_RECORD_CHECK | jq '.success')
-    echo $CF_CHECK_UPDATE_RECORD | jq '.'
     if [[ "$CF_CHECK_UPDATE_RECORD" == "true" ]]; then
         echo -e "     -> Record ${GREEN}successfully${CLASSIC} updated to $3 !"
     else
