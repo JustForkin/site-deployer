@@ -584,6 +584,7 @@ function updateNginxConfiguration() {
 function enableMonitoring() {
     echo "  -> Enabling Netdata monitoring configuration"
     MONITORING_NGINX_VHOST="/etc/nginx/sites-enabled/000-phpfpm-status.conf"
+    MONITORING_NETDATA_CONF="/etc/netdata/python.d/phpfpm.conf"
     MONITORING_CONF_BASE="${MY_SCRIPT_PATH}/common/nginx/monitoring.conf"
     MONITORING_NETDATA_CONF_BASE="${MY_SCRIPT_PATH}/common/php/phpfpm-monitoring.conf"
     TEMP_MONITORING_CONF_FILE="/tmp/${DOM_PRINCIPAL}.monitoring.conf"
@@ -601,12 +602,18 @@ function enableMonitoring() {
         fi
     done
     if [[ ! -f ${MONITORING_NGINX_VHOST} ]]; then
-        touch ${MONITORING_NGINX_VHOST}
+        touch ${MONITORING_NGINX_VHOST} >/dev/null 2>&1
     fi
-    cat ${TEMP_MONITORING_CONF_FILE} >> ${MONITORING_NGINX_VHOST}
-    
+    if [[ ! -f ${MONITORING_NETDATA_CONF} ]]; then
+        touch ${MONITORING_NETDATA_CONF} >/dev/null 2>&1
+        echo "update_every : 3" >> ${MONITORING_NETDATA_CONF}
+        echo "priority     : 90100" >> ${MONITORING_NETDATA_CONF}
+    fi
+    cat ${TEMP_MONITORING_CONF_FILE} >> ${MONITORING_NGINX_VHOST} >/dev/null 2>&1
+    cat ${TEMP_MONITORING_NETDATA_CONF_FILE} >> ${MONITORING_NETDATA_CONF} >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
-        rm ${TEMP_MONITORING_CONF_FILE}
+        rm ${TEMP_MONITORING_CONF_FILE} >/dev/null 2>&1
+        rm ${TEMP_MONITORING_NETDATA_CONF_FILE} >/dev/null 2>&1
         echo -e "   -> PHPFPM monitoring ${GREEN}successfully added${CLASSIC}"
     fi
 }
