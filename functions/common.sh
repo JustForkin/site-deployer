@@ -587,21 +587,7 @@ function enableMonitoring() {
     MONITORING_NETDATA_CONF="/etc/netdata/python.d/phpfpm.conf"
     MONITORING_CONF_BASE="${MY_SCRIPT_PATH}/common/nginx/monitoring.conf"
     MONITORING_NETDATA_CONF_BASE="${MY_SCRIPT_PATH}/common/php/phpfpm-monitoring.conf"
-    TEMP_MONITORING_CONF_FILE="/tmp/${DOM_PRINCIPAL}.monitoring.conf"
-    TEMP_MONITORING_NETDATA_CONF_FILE="/tmp/${DOM_PRINCIPAL}.netdata.monitoring.conf"
-    cp ${MONITORING_CONF_BASE} ${TEMP_MONITORING_CONF_FILE} >/dev/null 2>&1
-    cp ${MONITORING_NETDATA_CONF_BASE} ${TEMP_MONITORING_NETDATA_CONF_FILE} >/dev/null 2>&1
-    sed -i "s/{DOM_PRINCIPAL}/${DOM_PRINCIPAL}/g" ${TEMP_MONITORING_CONF_FILE} >/dev/null 2>&1
-    END=8150
-    for ((i=8080;i<=END;i++)); do
-        grep $i /etc/nginx/sites-enabled/000-phpfpm-status.conf >/dev/null 2>&1
-        if [[ ! $? -eq 0 ]]; then
-            echo "   -> Found free port for PHP-FPM Monitoring : $i"
-            sed -i "s/{PHPFPM_MONITORING_PORT}/$i/g" ${TEMP_MONITORING_CONF_FILE} >/dev/null 2>&1
-            sed -i "s/{PHPFPM_MONITORING_PORT}/$i/g" ${TEMP_MONITORING_NETDATA_CONF_FILE} >/dev/null 2>&1
-            break
-        fi
-    done
+    
     if [[ ! -f ${MONITORING_NGINX_VHOST} ]]; then
         touch ${MONITORING_NGINX_VHOST} >/dev/null 2>&1
     fi
@@ -610,13 +596,26 @@ function enableMonitoring() {
         echo "update_every : 3" >> ${MONITORING_NETDATA_CONF}
         echo "priority     : 90100" >> ${MONITORING_NETDATA_CONF}
     fi
+
     echo "" >> ${MONITORING_NGINX_VHOST}
     echo "" >> ${MONITORING_NETDATA_CONF}
-    cat ${TEMP_MONITORING_CONF_FILE} >> ${MONITORING_NGINX_VHOST} >/dev/null 2>&1
-    cat ${TEMP_MONITORING_NETDATA_CONF_FILE} >> ${MONITORING_NETDATA_CONF} >/dev/null 2>&1
+    cat ${MONITORING_CONF_BASE} >> ${MONITORING_NGINX_VHOST} >/dev/null 2>&1
+    cat ${MONITORING_NETDATA_CONF_BASE} >> ${MONITORING_NETDATA_CONF} >/dev/null 2>&1
+
+    END=8150
+    for ((i=8080;i<=END;i++)); do
+        grep $i /etc/nginx/sites-enabled/000-phpfpm-status.conf >/dev/null 2>&1
+        if [[ ! $? -eq 0 ]]; then
+            echo "   -> Found free port for PHP-FPM Monitoring : $i"
+            sed -i "s/{PHPFPM_MONITORING_PORT}/$i/g" ${MONITORING_NGINX_VHOST} >/dev/null 2>&1
+            sed -i "s/{PHPFPM_MONITORING_PORT}/$i/g" ${MONITORING_NETDATA_CONF} >/dev/null 2>&1
+            break
+        fi
+    done
+
+    sed -i "s/{DOM_PRINCIPAL}/${DOM_PRINCIPAL}/g" ${MONITORING_NGINX_VHOST} >/dev/null 2>&1
+    sed -i "s/{DOMAIN}/${DOMAIN}/g" ${MONITORING_NETDATA_CONF} >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
-        rm ${TEMP_MONITORING_CONF_FILE} >/dev/null 2>&1
-        rm ${TEMP_MONITORING_NETDATA_CONF_FILE} >/dev/null 2>&1
         echo -e "   -> PHPFPM monitoring ${GREEN}successfully added${CLASSIC}"
     fi
 }
