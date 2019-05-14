@@ -8,6 +8,7 @@ function newDeploy() {
     export CLIENT_NAME=$(whiptail --title "Client name" --inputbox "Client name, will be used for client folder" 10 60 3>&1 1>&2 2>&3)
     export DOMAIN=$(whiptail --title "Domain" --inputbox "First level domain name" 10 60 3>&1 1>&2 2>&3)
 
+    NO_MAIN_WWW=false
     if (whiptail --title "WWW" --yesno "Do you want to use WWW as main servername ?" 10 60) then
         export DOM_PRINCIPAL="www.$DOMAIN"
     else
@@ -285,6 +286,8 @@ function install() {
         echo -e "   -> ${RED}Website directory already exist, please rechecks vars${CLASSIC}"
     fi
     cp ${MY_SCRIPT_PATH}/common/errors/index.html ${CLIENT_DIR}/web/index.html
+    sed -i "s/{DOM_PRINCIPAL}/${DOM_PRINCIPAL}/g" ${CLIENT_DIR}/web/index.html
+    sed -i "s/{DOMAIN}/${DOMAIN}/g" ${CLIENT_DIR}/web/index.html
     cp ${MY_SCRIPT_PATH}/common/errors ${CLIENT_DIR}/web/error -R
 
     sleep 1

@@ -17,6 +17,7 @@ function checkingCFRecord() {
         echo "  -> Getting record ID for $ALIASES"
         for DOM in "${ALIASES[@]}"
         do
+            echo "   -> Processing $DOM"
             CF_RECORD_CHECK=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/dns_records?type=A&name=$DOM" -H "X-Auth-Email: $CF_EMAIL" -H "X-Auth-Key: $CF_APIKEY" -H "Content-Type: application/json")
             echo $CF_RECORD_CHECK | jq '.'
             CF_RECORD_SUCCESS=$(echo $CF_RECORD_CHECK | jq '.success')
