@@ -34,7 +34,7 @@ function checkingCFRecord() {
                     if [[ "$CF_RECORD_IP" == "$MY_IP" ]]; then
                         echo -e "     -> Record IP ${GREEN}is OK${CLASSIC} !"
                     else
-                        echo -e "     -> Record IP ${RED}mismatch${CLASSIC} with My IP - Actual IP : $CF_RECORD_IP"
+                        echo -e "     -> Record IP ${YELLOW}mismatch${CLASSIC} with My IP - Actual IP : $CF_RECORD_IP"
                         updateRecord "A" "$DOM" "$MY_IP" "$CF_RECORD_ID" "$CF_ZONE_ID" "$CF_EMAIL" "$CF_APIKEY"
                     fi
                 else

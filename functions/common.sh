@@ -40,13 +40,13 @@ function newDeploy() {
     fi
 
     IPV4=$(curl -s ip4.clara.net)
-    for DOM in "${DOM_REDIRECT[@]}"
-    do
-        RECORD_IP_ADDRESS=$(dig A $DOM +short | head -1)
-        if [[ ! "$RECORD_IP_ADDRESS" == "${IPV4}" ]]; then
-            whiptail --title "Record IP" --msgbox "Please update/create a DNS record $DOM A $IPV4" 10 60
-        fi
-    done
+    # for DOM in "${DOM_REDIRECT[@]}"
+    # do
+    #     RECORD_IP_ADDRESS=$(dig A $DOM +short | head -1)
+    #     if [[ ! "$RECORD_IP_ADDRESS" == "${IPV4}" ]]; then
+    #         whiptail --title "Record IP" --msgbox "Please update/create a DNS record $DOM A $IPV4" 10 60
+    #     fi
+    # done
 
     export CLIENT_DIR="/var/www/html/clients/$CLIENT_NAME/$DOM_PRINCIPAL"
     export CLIENT_HOME="/var/www/html/clients/$CLIENT_NAME"
