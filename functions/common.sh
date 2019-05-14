@@ -595,7 +595,7 @@ function enableMonitoring() {
     END=8099
     for ((i=1;i<=END;i++)); do
         grep $i /etc/nginx/sites-enabled/000-phpfpm-status.conf >/dev/null 2>&1
-        if [[ ! $? -eq 0 ]];
+        if [[ ! $? -eq 0 ]]; then
             echo "   -> Found free port for PHP-FPM Monitoring : $i"
             sed -i "s/{PHPFPM_MONITORING_PORT}/$i/g" ${TEMP_MONITORING_CONF_FILE} >/dev/null 2>&1
             sed -i "s/{PHPFPM_MONITORING_PORT}/$i/g" ${TEMP_MONITORING_NETDATA_CONF_FILE} >/dev/null 2>&1
