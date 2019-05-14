@@ -609,6 +609,8 @@ function enableMonitoring() {
         echo "update_every : 3" >> ${MONITORING_NETDATA_CONF}
         echo "priority     : 90100" >> ${MONITORING_NETDATA_CONF}
     fi
+    echo "" >> ${MONITORING_NGINX_VHOST}
+    echo "" >> ${MONITORING_NETDATA_CONF}
     cat ${TEMP_MONITORING_CONF_FILE} >> ${MONITORING_NGINX_VHOST} >/dev/null 2>&1
     cat ${TEMP_MONITORING_NETDATA_CONF_FILE} >> ${MONITORING_NETDATA_CONF} >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
