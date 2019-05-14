@@ -598,6 +598,9 @@ function enableMonitoring() {
         echo "update_every : 3" >> ${MONITORING_NETDATA_CONF}
         echo "priority     : 90100" >> ${MONITORING_NETDATA_CONF}
     fi
+    if [[ ! -f ${MONITORING_WEBLOG_NETDATA_CONF} ]]; then
+        touch ${MONITORING_WEBLOG_NETDATA_CONF} >/dev/null 2>&1
+    fi
 
     echo "   -> Adding configuration to files"
     echo "" >> ${MONITORING_NGINX_VHOST}
