@@ -585,8 +585,10 @@ function enableMonitoring() {
     echo "  -> Enabling Netdata monitoring configuration"
     MONITORING_NGINX_VHOST="/etc/nginx/sites-enabled/000-phpfpm-status.conf"
     MONITORING_NETDATA_CONF="/etc/netdata/python.d/phpfpm.conf"
-    MONITORING_CONF_BASE="${MY_SCRIPT_PATH}/common/nginx/monitoring.conf"
+    MONITORING_WEBLOG_NETDATA_CONF="/etc/netdata/python.d/web_log.conf"
+    MONITORING_CONF_BASE="${MY_SCRIPT_PATH}/common/nginx/nginx.vhost.phpfpm.conf"
     MONITORING_NETDATA_CONF_BASE="${MY_SCRIPT_PATH}/common/php/phpfpm-monitoring.conf"
+    MONITORING_NETDATA_WEBLOG_BASE="${MY_SCRIPT_PATH}/common/nginx/netdata.weblog.conf"
     
     if [[ ! -f ${MONITORING_NGINX_VHOST} ]]; then
         touch ${MONITORING_NGINX_VHOST} >/dev/null 2>&1
@@ -597,10 +599,13 @@ function enableMonitoring() {
         echo "priority     : 90100" >> ${MONITORING_NETDATA_CONF}
     fi
 
+    echo "   -> Adding configuration to files"
     echo "" >> ${MONITORING_NGINX_VHOST}
     echo "" >> ${MONITORING_NETDATA_CONF}
-    cat ${MONITORING_CONF_BASE} >> ${MONITORING_NGINX_VHOST} >/dev/null 2>&1
-    cat ${MONITORING_NETDATA_CONF_BASE} >> ${MONITORING_NETDATA_CONF} >/dev/null 2>&1
+    echo "" >> ${MONITORING_WEBLOG_NETDATA_CONF}
+    cat ${MONITORING_CONF_BASE} >> ${MONITORING_NGINX_VHOST}
+    cat ${MONITORING_NETDATA_CONF_BASE} >> ${MONITORING_NETDATA_CONF}
+    cat ${MONITORING_NETDATA_WEBLOG_BASE} >> ${MONITORING_WEBLOG_NETDATA_CONF}
 
     END=8150
     for ((i=8080;i<=END;i++)); do
@@ -615,6 +620,8 @@ function enableMonitoring() {
 
     sed -i "s/{DOM_PRINCIPAL}/${DOM_PRINCIPAL}/g" ${MONITORING_NGINX_VHOST} >/dev/null 2>&1
     sed -i "s/{DOMAIN}/${DOMAIN}/g" ${MONITORING_NETDATA_CONF} >/dev/null 2>&1
+    sed -i "s/{DOM_PRINCIPAL}/${DOM_PRINCIPAL}/g" ${MONITORING_WEBLOG_NETDATA_CONF} >/dev/null 2>&1
+    sed -i "s/{CLIENT_NAME}/${CLIENT_NAME}/g" ${MONITORING_WEBLOG_NETDATA_CONF} >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
         echo -e "   -> PHPFPM monitoring ${GREEN}successfully added${CLASSIC}"
     fi
