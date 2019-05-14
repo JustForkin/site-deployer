@@ -491,6 +491,10 @@ function install() {
         if [[ $? -eq 0 ]]; then
             echo -e "   -> Reload PHP ${GREEN}Successfull${CLASSIC}"
         fi
+        systemctl restart netdata.service >/dev/null 2>&1
+        if [[ $? -eq 0 ]]; then
+            echo -e "   -> Reload Netdata ${GREEN}Successfull${CLASSIC}"
+        fi
     fi
     echo ""
     echo "  --> You can now visit your new website at $DOM_PRINCIPAL"
