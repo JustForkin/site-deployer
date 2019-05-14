@@ -295,7 +295,7 @@ function install() {
     echo "  -> Creating user ${CLIENT_NAME} in group www-data"
     grep "${CLIENT_NAME}" /etc/passwd >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
-        echo -e "   -> User ${CLIENT_NAME} ${RED}already exists, skipping...${CLASSIC}"
+        echo -e "   -> User ${CLIENT_NAME} ${YELLOW}already exists, skipping...${CLASSIC}"
     else
         useradd -G www-data -md ${CLIENT_HOME} -s /bin/false ${CLIENT_NAME} >/dev/null 2>&1
     fi
