@@ -341,6 +341,10 @@ function install() {
 
     sleep 1
 
+    if (whiptail --title "Netdata Monitoring" --yesno "Do you want to enable Netdata Monitoring for this site ?" 10 60) then
+        enableMonitoring
+    fi
+
     echo "  -> Checking for SSL certificate"
     grep "\[CERTBOT_OPT\]" ${SD_CONF_FILE} >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
@@ -575,4 +579,34 @@ function updateNginxConfiguration() {
         fi
     done
     echo "  -> Nginx Snippets Updater done"
+}
+
+function enableMonitoring() {
+    echo "  -> Enabling Netdata monitoring configuration"
+    MONITORING_NGINX_VHOST="/etc/nginx/sites-enabled/000-phpfpm-status.conf"
+    MONITORING_CONF_BASE="${MY_SCRIPT_PATH}/common/nginx/monitoring.conf"
+    MONITORING_NETDATA_CONF_BASE="${MY_SCRIPT_PATH}/common/php/phpfpm-monitoring.conf"
+    TEMP_MONITORING_CONF_FILE="/tmp/${DOM_PRINCIPAL}.monitoring.conf"
+    TEMP_MONITORING_NETDATA_CONF_FILE="/tmp/${DOM_PRINCIPAL}.netdata.monitoring.conf"
+    cp ${MONITORING_CONF_BASE} ${TEMP_MONITORING_CONF_FILE} >/dev/null 2>&1
+    cp ${MONITORING_NETDATA_CONF_BASE} ${TEMP_MONITORING_NETDATA_CONF_FILE} >/dev/null 2>&1
+    sed -i "s/{DOM_PRINCIPAL}/${DOM_PRINCIPAL}/g" ${TEMP_MONITORING_CONF_FILE} >/dev/null 2>&1
+    END=8099
+    for ((i=1;i<=END;i++)); do
+        grep $i /etc/nginx/sites-enabled/000-phpfpm-status.conf >/dev/null 2>&1
+        if [[ ! $? -eq 0 ]];
+            echo "   -> Found free port for PHP-FPM Monitoring : $i"
+            sed -i "s/{PHPFPM_MONITORING_PORT}/$i/g" ${TEMP_MONITORING_CONF_FILE} >/dev/null 2>&1
+            sed -i "s/{PHPFPM_MONITORING_PORT}/$i/g" ${TEMP_MONITORING_NETDATA_CONF_FILE} >/dev/null 2>&1
+        fi
+    done
+    if [[ ! -f ${MONITORING_NGINX_VHOST} ]]; then
+        touch ${MONITORING_NGINX_VHOST}
+    fi
+    cat ${TEMP_MONITORING_CONF_FILE} >> ${MONITORING_NGINX_VHOST}
+    
+    if [[ $? -eq 0 ]]; then
+        rm ${TEMP_MONITORING_CONF_FILE}
+        echo -e "   -> PHPFPM monitoring ${GREEN}successfully added${CLASSIC}"
+    fi
 }
