@@ -277,13 +277,13 @@ function install() {
     if [[ ! -d $CLIENT_HOME ]]; then
         mkdir -p $CLIENT_HOME
     else
-        echo -e "   -> Client home directory ${RED}already exist, skipping...${CLASSIC}"
+        echo -e "   -> Client home directory ${YELLOW}already exist, skipping...${CLASSIC}"
     fi
     if [[ ! -d $CLIENT_DIR ]]; then
         mkdir -p ${CLIENT_DIR}/{web,sessions,tmp,log,backup}
         ln -s /var/www/html/clients/${CLIENT_NAME}/${DOM_PRINCIPAL}/web /var/www/html/${DOM_PRINCIPAL}
     else
-        echo -e "   -> ${RED}Website directory already exist, please rechecks vars${CLASSIC}"
+        echo -e "   -> ${YELLOW}Website directory already exist, please rechecks vars${CLASSIC}"
     fi
     cp ${MY_SCRIPT_PATH}/common/errors/index.html ${CLIENT_DIR}/web/index.html
     sed -i "s/{DOM_PRINCIPAL}/${DOM_PRINCIPAL}/g" ${CLIENT_DIR}/web/index.html
