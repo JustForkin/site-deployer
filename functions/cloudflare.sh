@@ -52,6 +52,9 @@ function checkingCFRecord() {
     else
         echo -e "    -> Zone ${RED}not${CLASSIC} found in Cloudflare."
     fi
+    if (whiptail --title "Cloudflare Updater" --yesno "Do you want update another domain ?" 10 60) then
+        checkingCFRecord
+    fi
 }
 
 function createRecord() {
