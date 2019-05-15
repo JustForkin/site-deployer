@@ -626,7 +626,7 @@ function enableMonitoring() {
     done
 
     sed -i "s/{DOM_PRINCIPAL}/${DOM_PRINCIPAL}/g" ${MONITORING_NGINX_VHOST} >/dev/null 2>&1
-    sed -i "s/{DOMAIN}/${DOMAIN}/g" ${MONITORING_NETDATA_CONF} >/dev/null 2>&1
+    sed -i "s/{DOM_PRINCIPAL}/${DOM_PRINCIPAL}/g" ${MONITORING_NETDATA_CONF} >/dev/null 2>&1
     sed -i "s/{DOM_PRINCIPAL}/${DOM_PRINCIPAL}/g" ${MONITORING_WEBLOG_NETDATA_CONF} >/dev/null 2>&1
     sed -i "s/{CLIENT_NAME}/${CLIENT_NAME}/g" ${MONITORING_WEBLOG_NETDATA_CONF} >/dev/null 2>&1
     if [[ $? -eq 0 ]]; then
