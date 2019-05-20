@@ -469,6 +469,12 @@ function install() {
                 *)
                     ;;
             esac
+            if (whiptail --title "WP Cron" --yesno "Do you wan't to enable Wordpress Cron ?" 10 60) then
+                if [[ ! -f /etc/cron.d/wordpress ]]; then
+                    touch /etc/cron.d/wordpress
+                fi
+                echo "*/10 * * * * www-data /usr/bin/php /var/www/html/${DOM_PRINCIPAL}/wp-cron.php > /dev/null 2>&1" >> /etc/cron.d/wordpress
+            fi
             ;;
         *)
             ;;
