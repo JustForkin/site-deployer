@@ -317,7 +317,7 @@ function checkCompatibility() {
     echo "" >> $SD_CONF_FILE
 	echo "  -> Config file created"
     echo "[WP-PLUGINS]" >> ${SD_CONF_FILE}
-    echo "WP_DEFAULT_PLUGINS=regenerate-thumbnails hide-admin-bar loco-translate wp-mail-smtp invisible-recaptcha wp-maintenance-mode akismet backwpup disable-gutenberg" >> $SD_CONF_FILE
+    echo "WP_DEFAULT_PLUGINS=regenerate-thumbnails hide-admin-bar all-404-redirect-to-homepage loco-translate wp-mail-smtp invisible-recaptcha wp-maintenance-mode akismet backwpup disable-gutenberg" >> $SD_CONF_FILE
     echo "" >> ${SD_CONF_FILE}
     echo ""
 
